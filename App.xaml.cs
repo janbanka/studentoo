@@ -12,8 +12,12 @@ public partial class App : Application
 {
     protected override void OnStartup(StartupEventArgs e)
     {
-        DatabaseFacade facade = new DatabaseFacade(new UserDataContext());
-        facade.EnsureCreated();
+       
+        using (var context = new UserDataContext())
+        {
+            DatabaseFacade facade = new DatabaseFacade(context);
+            facade.EnsureCreated();
+        }
     }
 }
 

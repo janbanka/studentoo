@@ -1,7 +1,8 @@
-﻿using Microsoft.Data.Sqlite;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -31,22 +32,45 @@ namespace studentoo
         {
             var login = txtLogin.Text;
             var password = txtHaslo.Password;
-
-            using (UserDataContext context = new UserDataContext())
+            try
             {
-                bool userFound = context.Users.Any(user => (user.login == login) && (user.password_hash == password));
-                if (userFound)
+                using (UserDataContext context = new UserDataContext())
                 {
-                    grantAccess();
-                    Close();
-                }
-                else
-                {
-                    MessageBox.Show("User not found");
+                    // Hashowanie hasła przed porównaniem (np. SHA256)
+                    string hashedPassword = password;
+
+                    bool userFound = context.Users.AsEnumerable()
+                        .Any(user =>user.login == login && user.password_hash == hashedPassword);
+
+                    if (userFound)
+                    {
+                        grantAccess();
+                        Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Nieprawidłowy login lub hasło");
+                    }
                 }
             }
+            catch(SqlException ex)
+{
+                MessageBox.Show($"Błąd bazy danych: {ex.Message}");
+            }
+            catch (Exception ex)
+{
+                MessageBox.Show($"Nieoczekiwany błąd: {ex.Message}");
+            }
         }
-
+        
+        private string HashPassword(string password)
+        {
+            using (var sha256 = System.Security.Cryptography.SHA256.Create())
+            {
+                var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
+            }
+        }
         public void grantAccess()
         {
             MainWindow main = new MainWindow();
