@@ -7,16 +7,28 @@
       "RelativeMoniker": "D:0:0:{5AD44635-2715-4009-B579-5ABF61363A58}|studentoo.csproj|solutionrelative:loginpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{5AD44635-2715-4009-B579-5ABF61363A58}|studentoo.csproj|c:\\users\\skuzi\\documents\\github\\studentoo\\userdatacontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5AD44635-2715-4009-B579-5ABF61363A58}|studentoo.csproj|solutionrelative:userdatacontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5AD44635-2715-4009-B579-5ABF61363A58}|studentoo.csproj|c:\\users\\skuzi\\documents\\github\\studentoo\\appsettings.example.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{5AD44635-2715-4009-B579-5ABF61363A58}|studentoo.csproj|solutionrelative:appsettings.example.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5AD44635-2715-4009-B579-5ABF61363A58}|studentoo.csproj|c:\\users\\skuzi\\documents\\github\\studentoo\\loginpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{5AD44635-2715-4009-B579-5ABF61363A58}|studentoo.csproj|solutionrelative:loginpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5AD44635-2715-4009-B579-5ABF61363A58}|studentoo.csproj|c:\\users\\skuzi\\documents\\github\\studentoo\\rejestracja1.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{5AD44635-2715-4009-B579-5ABF61363A58}|studentoo.csproj|solutionrelative:rejestracja1.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{5AD44635-2715-4009-B579-5ABF61363A58}|studentoo.csproj|c:\\users\\skuzi\\documents\\github\\studentoo\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5AD44635-2715-4009-B579-5ABF61363A58}|studentoo.csproj|solutionrelative:user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5AD44635-2715-4009-B579-5ABF61363A58}|studentoo.csproj|c:\\users\\skuzi\\documents\\github\\studentoo\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5AD44635-2715-4009-B579-5ABF61363A58}|studentoo.csproj|solutionrelative:mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5AD44635-2715-4009-B579-5ABF61363A58}|studentoo.csproj|c:\\users\\skuzi\\documents\\github\\studentoo\\userdatacontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5AD44635-2715-4009-B579-5ABF61363A58}|studentoo.csproj|solutionrelative:userdatacontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5AD44635-2715-4009-B579-5ABF61363A58}|studentoo.csproj|c:\\users\\skuzi\\documents\\github\\studentoo\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -38,8 +50,20 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Rejestracja1.xaml",
+              "DocumentMoniker": "C:\\Users\\skuzi\\Documents\\GitHub\\studentoo\\Rejestracja1.xaml",
+              "RelativeDocumentMoniker": "Rejestracja1.xaml",
+              "ToolTip": "C:\\Users\\skuzi\\Documents\\GitHub\\studentoo\\Rejestracja1.xaml",
+              "RelativeToolTip": "Rejestracja1.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-04-04T12:45:09.698Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -48,27 +72,14 @@
               "RelativeDocumentMoniker": "loginPage.xaml.cs",
               "ToolTip": "C:\\Users\\skuzi\\Documents\\GitHub\\studentoo\\loginPage.xaml.cs*",
               "RelativeToolTip": "loginPage.xaml.cs*",
-              "ViewState": "AgIAABwAAAAAAAAAAAAUwCcAAAAsAAAAAAAAAA==",
+              "ViewState": "AgIAABoAAAAAAAAAAADwvzoAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-04T11:58:17.946Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "studentoo.csproj",
-              "DocumentMoniker": "C:\\Users\\skuzi\\Documents\\GitHub\\studentoo\\studentoo.csproj",
-              "RelativeDocumentMoniker": "studentoo.csproj",
-              "ToolTip": "C:\\Users\\skuzi\\Documents\\GitHub\\studentoo\\studentoo.csproj",
-              "RelativeToolTip": "studentoo.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-04-04T11:32:37.381Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "AssemblyInfo.cs",
               "DocumentMoniker": "C:\\Users\\skuzi\\Documents\\GitHub\\studentoo\\AssemblyInfo.cs",
               "RelativeDocumentMoniker": "AssemblyInfo.cs",
@@ -81,7 +92,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "MainWindow.xaml.cs",
               "DocumentMoniker": "C:\\Users\\skuzi\\Documents\\GitHub\\studentoo\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "MainWindow.xaml.cs",
@@ -94,7 +105,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
+              "Title": "UserDataContext.cs",
+              "DocumentMoniker": "C:\\Users\\skuzi\\Documents\\GitHub\\studentoo\\UserDataContext.cs",
+              "RelativeDocumentMoniker": "UserDataContext.cs",
+              "ToolTip": "C:\\Users\\skuzi\\Documents\\GitHub\\studentoo\\UserDataContext.cs",
+              "RelativeToolTip": "UserDataContext.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABgAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-01T08:42:40.904Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "appsettings.example.json",
+              "DocumentMoniker": "C:\\Users\\skuzi\\Documents\\GitHub\\studentoo\\appsettings.example.json",
+              "RelativeDocumentMoniker": "appsettings.example.json",
+              "ToolTip": "C:\\Users\\skuzi\\Documents\\GitHub\\studentoo\\appsettings.example.json",
+              "RelativeToolTip": "appsettings.example.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-04-04T12:58:51.717Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "App.xaml.cs",
               "DocumentMoniker": "C:\\Users\\skuzi\\Documents\\GitHub\\studentoo\\App.xaml.cs",
               "RelativeDocumentMoniker": "App.xaml.cs",
@@ -107,7 +144,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "User.cs",
               "DocumentMoniker": "C:\\Users\\skuzi\\Documents\\GitHub\\studentoo\\User.cs",
               "RelativeDocumentMoniker": "User.cs",
@@ -121,14 +158,26 @@
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "UserDataContext.cs",
-              "DocumentMoniker": "C:\\Users\\skuzi\\Documents\\GitHub\\studentoo\\UserDataContext.cs",
-              "RelativeDocumentMoniker": "UserDataContext.cs",
-              "ToolTip": "C:\\Users\\skuzi\\Documents\\GitHub\\studentoo\\UserDataContext.cs",
-              "RelativeToolTip": "UserDataContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwA8AAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-01T08:42:40.904Z",
+              "Title": "loginPage.xaml",
+              "DocumentMoniker": "C:\\Users\\skuzi\\Documents\\GitHub\\studentoo\\loginPage.xaml",
+              "RelativeDocumentMoniker": "loginPage.xaml",
+              "ToolTip": "C:\\Users\\skuzi\\Documents\\GitHub\\studentoo\\loginPage.xaml",
+              "RelativeToolTip": "loginPage.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-04-04T12:55:20.102Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "studentoo.csproj",
+              "DocumentMoniker": "C:\\Users\\skuzi\\Documents\\GitHub\\studentoo\\studentoo.csproj",
+              "RelativeDocumentMoniker": "studentoo.csproj",
+              "ToolTip": "C:\\Users\\skuzi\\Documents\\GitHub\\studentoo\\studentoo.csproj",
+              "RelativeToolTip": "studentoo.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-04-04T11:32:37.381Z",
               "EditorCaption": ""
             }
           ]

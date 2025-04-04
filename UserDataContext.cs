@@ -8,22 +8,28 @@ using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.EntityFrameworkCore;
 
+using Microsoft.Extensions.Configuration;
+
+
 namespace studentoo
 {
+    
     public class UserDataContext : DbContext
     {
-       
         public DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            
-            string connectionString =
-                "Server=178.43.79.128,1433;Database=studentooDB;User Id=sa;Password=superadmin;Encrypt=False;";
+            if (!optionsBuilder.IsConfigured)
+            {
+                var configuration = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName) // Poprawiona ścieżka
+                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                    .Build();
 
-            optionsBuilder.UseSqlServer(connectionString); 
+                optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            }
         }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
            

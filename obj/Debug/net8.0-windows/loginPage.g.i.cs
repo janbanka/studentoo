@@ -77,7 +77,7 @@ namespace studentoo {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/studentoo;V1.0.0.0;component/loginpage.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/studentoo;component/loginpage.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\loginPage.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

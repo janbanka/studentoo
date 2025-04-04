@@ -36,33 +36,37 @@ namespace studentoo
             {
                 using (UserDataContext context = new UserDataContext())
                 {
-                    
+                    // Hashowanie hasła przed porównaniem (np. SHA256)
                     string hashedPassword = password;
 
-                    bool userFound = context.Users.AsEnumerable()
-                        .Any(user =>user.login == login && user.password_hash == hashedPassword);
+                    bool userFound = context.Users
+                    .Any(user => user.login == login);
 
                     if (userFound)
                     {
-                        grantAccess();
-                        Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Nieprawidłowy login lub hasło");
+                        var user = context.Users.First(u => u.login == login);
+                        if (BCrypt.Net.BCrypt.Verify(password, user.password_hash))
+                        {
+                            grantAccess();
+                            Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Nieprawidłowe hasło");
+                        }
                     }
                 }
             }
-            catch(SqlException ex)
-{
+            catch (SqlException ex)
+            {
                 MessageBox.Show($"Błąd bazy danych: {ex.Message}");
             }
             catch (Exception ex)
-{
+            {
                 MessageBox.Show($"Nieoczekiwany błąd: {ex.Message}");
             }
         }
-
+        // Przykładowa metoda hashująca (w rzeczywistości użyj biblioteki np. BCrypt.Net)
         private string HashPassword(string password)
         {
             return BCrypt.Net.BCrypt.HashPassword(password);
