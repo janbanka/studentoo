@@ -36,7 +36,7 @@ namespace studentoo
             {
                 using (UserDataContext context = new UserDataContext())
                 {
-                    // Hashowanie hasła przed porównaniem (np. SHA256)
+                    
                     string hashedPassword = password;
 
                     bool userFound = context.Users.AsEnumerable()
@@ -62,14 +62,10 @@ namespace studentoo
                 MessageBox.Show($"Nieoczekiwany błąd: {ex.Message}");
             }
         }
-        
+
         private string HashPassword(string password)
         {
-            using (var sha256 = System.Security.Cryptography.SHA256.Create())
-            {
-                var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-                return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
-            }
+            return BCrypt.Net.BCrypt.HashPassword(password);
         }
         public void grantAccess()
         {
