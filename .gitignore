@@ -1,0 +1,11 @@
+/bin/Debug/net8.0-windows
+/bin/Debug/net8.0-windows/runtimes/maccatalyst-arm64
+/bin/Debug/net8.0-windows/runtimes/maccatalyst-arm64
+/bin/Debug/net8.0-windows/runtimes/linux-x86/native
+# Przykładowe ignorowane pliki
+*.log
+node_modules/
+.env
+bin/
+obj/
+.vs/
