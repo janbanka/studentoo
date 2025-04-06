@@ -5,8 +5,85 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:studentoo"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Studentoo" Height="800" Width="500"
+        WindowStartupLocation="CenterScreen"
+        Background="#FFF5F5F5">
 
+    <Grid>
+        <!-- Górny pasek nawigacyjny -->
+        <Border Background="#FFFE3C72" Height="60" VerticalAlignment="Top">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <!-- Lewa przestrzeń -->
+                    <ColumnDefinition Width="Auto" />
+                    <!-- Środkowe przyciski -->
+                    <ColumnDefinition Width="*" />
+                    <!-- Prawa przestrzeń -->
+                </Grid.ColumnDefinitions>
+
+                <!-- Przyciski nawigacyjne (środek) -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button x:Name="btnProfile" Content="👤" FontSize="20" Click="btnProfile_Click"/>
+                    <Button x:Name="btnHome" Content="🏠" FontSize="20" Margin="40,0" Click="btnHome_Click" />
+                    <Button x:Name="btnMessages" Content="💬" FontSize="20" Click="btnMessages_Click" />
+                </StackPanel>
+
+                <!-- Wyloguj się (prawa strona) -->
+                <Button x:Name="btnLogout" Content="🚪" FontSize="20" 
+                ToolTip="Wyloguj się"
+                HorizontalAlignment="Right" VerticalAlignment="Center"
+                Margin="0,0,10,0"
+                Grid.Column="2"
+                Click="btnLogout_Click"
+                />
+            </Grid>
+        </Border>
+        <!-- Główna zawartość -->
+        <Frame x:Name="MainFrame" Margin="0,60,0,70" NavigationUIVisibility="Hidden"/>
+
+        <!-- Dolny pasek akcji -->
+        <Border Background="White" Height="70" VerticalAlignment="Bottom">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button x:Name="btnDislike" 
+                        Content="✖" FontSize="24" Foreground="#FF6B6B6B" Click="btnDislike_Click"/>
+                <Button x:Name="btnSuperLike"  
+                        Content="⭐" FontSize="24" Foreground="#2196F3" Margin="30,0" Width="37" />
+                <Button x:Name="btnLike"
+                        Content="❤" FontSize="24" Foreground="#FFFE3C72" Click="btnLike_Click"/>
+            </StackPanel>
+        </Border>
     </Grid>
+
+    <Window.Resources>
+        <!-- Style przycisków -->
+        <Style x:Key="NavButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <Style x:Key="ActionButton" TargetType="Button">
+            <Setter Property="Width" Value="70"/>
+            <Setter Property="Height" Value="70"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="35">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
 </Window>

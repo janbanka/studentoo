@@ -12,12 +12,11 @@ public partial class App : Application
 {
     protected override void OnStartup(StartupEventArgs e)
     {
+        base.OnStartup(e);
+
+      
+        var loginWindow = new loginPage();
        
-        using (var context = new UserDataContext())
-        {
-            DatabaseFacade facade = new DatabaseFacade(context);
-            facade.EnsureCreated();
-        }
     }
 }
 

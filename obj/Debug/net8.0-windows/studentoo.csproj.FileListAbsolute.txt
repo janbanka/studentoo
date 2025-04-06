@@ -231,3 +231,7 @@ C:\Users\skuzi\Documents\GitHub\studentoo\bin\Debug\net8.0-windows\Microsoft.Ext
 C:\Users\skuzi\Documents\GitHub\studentoo\bin\Debug\net8.0-windows\Microsoft.Extensions.FileSystemGlobbing.dll
 C:\Users\skuzi\Documents\GitHub\studentoo\obj\Debug\net8.0-windows\Rejestracja1.g.cs
 C:\Users\skuzi\Documents\GitHub\studentoo\obj\Debug\net8.0-windows\Rejestracja1.baml
+C:\Users\skuzi\Documents\GitHub\studentoo\obj\Debug\net8.0-windows\UserPage.g.cs
+C:\Users\skuzi\Documents\GitHub\studentoo\obj\Debug\net8.0-windows\UserPage.baml
+C:\Users\skuzi\Documents\GitHub\studentoo\obj\Debug\net8.0-windows\HomePage.baml
+C:\Users\skuzi\Documents\GitHub\studentoo\obj\Debug\net8.0-windows\HomePage.g.cs
