@@ -1,20 +1,20 @@
-﻿<Window x:Class="studentoo.loginPage"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:studentoo"
-        mc:Ignorable="d"
-        Title="Logowanie" Height="455" Width="800"
-        WindowStartupLocation="CenterScreen">
+﻿<Page x:Class="studentoo.loginPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:local="clr-namespace:studentoo"
+      mc:Ignorable="d"
+      Title="Logowanie"
+      Background="#FFF5C4FF">
 
-    <Grid Background="#FFF5C4FF">
+    <Grid>
         <Border Background="White" CornerRadius="12" Padding="30"
                 BorderBrush="#ccc" BorderThickness="1" 
                 VerticalAlignment="Center" HorizontalAlignment="Center" 
                 Width="350" Height="414">
 
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="170">
                 <TextBlock Text="Logowanie" 
                            FontSize="24" FontWeight="Bold" 
                            TextAlignment="Center" Margin="0,0,0,30"/>
@@ -30,19 +30,20 @@
                         HorizontalAlignment="Center" 
                         Background="#FFC791D2" Foreground="White"
                         Click="btnLogin_Click"/>
-                <TextBlock Text="Lub" TextAlignment="Center"/>
+
+                <TextBlock Text="Lub" TextAlignment="Center" Margin="0,0"/>
 
                 <Button x:Name="btnRejestracja" 
                         Content="Nie masz konta? Zarejestruj się" 
-                        Width="150" Height="35" Margin="0,30,0,10"
-                        HorizontalAlignment="Center" 
-                        Background="#FFC791D2" Foreground="White"
-                        Click="btnRejestracja_Click"/>
+                         Width="150" Height="35" Margin="0,5,0,10"
+ HorizontalAlignment="Center" 
+ Background="#FFC791D2" Foreground="White"
+ Click="btnRejestracja_Click"/>
             </StackPanel>
         </Border>
     </Grid>
 
-    <Window.Resources>
+    <Page.Resources>
         <Style x:Key="LinkButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
@@ -63,5 +64,5 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-    </Window.Resources>
-</Window>
+    </Page.Resources>
+</Page>

@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Data;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace studentoo;
 
@@ -10,14 +11,7 @@ namespace studentoo;
 /// </summary>
 public partial class App : Application
 {
-    protected override void OnStartup(StartupEventArgs e)
-    {
-        base.OnStartup(e);
-
-      
-        var loginWindow = new loginPage();
-       
-    }
-
+    public static Frame MainF { get; set; }
+    public static Frame MainFrame => ((MainWindow)Current.MainWindow).MainFrame;
 }
 

@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="Studentoo" Height="800" Width="500"
         WindowStartupLocation="CenterScreen"
-        Background="#FFF5F5F5">
+        Background="#FFF5F5F5" 
+        >
         
     <Grid>
         <!-- Górny pasek nawigacyjny -->

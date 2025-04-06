@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace studentoo
@@ -12,6 +13,8 @@ namespace studentoo
             InitializeComponent();
             currentUserId = userId;
             LoadHomePage();
+            App.MainF = this.MainFrame;
+            MainFrame.Navigate(new loginPage());
         }
 
         private void LoadHomePage()
@@ -41,7 +44,7 @@ namespace studentoo
         {
             
             if (MainFrame.Content is HomePage homePage)
-            {
+            {   
                 homePage.LikeCurrentUser();
             }
         }
@@ -54,16 +57,18 @@ namespace studentoo
                // homePage.DislikeCurrentUser();
             }
         }
+
         private void btnLogout_Click(object sender, RoutedEventArgs e)
         {
-           
-            var loginWindow = new loginPage();
-            loginWindow.Show();
+            App.MainF.Navigate(new loginPage());
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
 
            
-            this.Close();
+            base.OnClosed(e);
         }
-       
 
     }
 }

@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace studentoo
 {
-    public partial class loginPage : Window
+    public partial class loginPage : Page
     {
         public int LoggedInUserId { get; private set; }
+        public bool IsLoggedIn { get; private set; }
 
         public loginPage()
         {
             InitializeComponent();
-            WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
@@ -23,21 +25,19 @@ namespace studentoo
             {
                 using (UserDataContext context = new UserDataContext())
                 {
-                    bool userFound = context.Users.Any(user => user.login == login);
+                    var user = context.Users.FirstOrDefault(u => u.login == login);
 
-                    if (userFound)
+                    if (user != null)
                     {
-                        var user = context.Users.First(u => u.login == login);
                         if (BCrypt.Net.BCrypt.Verify(password, user.password_hash))
                         {
-                            
+                            IsLoggedIn = true;
                             LoggedInUserId = user.id;
-
-                            
                             var mainWindow = new MainWindow(LoggedInUserId);
                             mainWindow.Show();
 
-                            this.Close();
+                            Window.GetWindow(this)?.Close();
+
                         }
                         else
                         {
@@ -62,18 +62,8 @@ namespace studentoo
 
         private void btnRejestracja_Click(object sender, RoutedEventArgs e)
         {
-            var registrationPage = new Rejestracja1();
-            var registrationWindow = new Window
-            {
-                Title = "Rejestracja",
-                Content = registrationPage,
-                Width = 600,
-                Height = 500,
-                WindowStartupLocation = WindowStartupLocation.CenterScreen
-            };
+            this.NavigationService?.Navigate(new Rejestracja1());
 
-            registrationWindow.Show();
-            this.Close();
         }
     }
 }

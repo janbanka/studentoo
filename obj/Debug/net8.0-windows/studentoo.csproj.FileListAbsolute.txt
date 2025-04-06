@@ -235,3 +235,4 @@ C:\Users\skuzi\Documents\GitHub\studentoo\obj\Debug\net8.0-windows\UserPage.g.cs
 C:\Users\skuzi\Documents\GitHub\studentoo\obj\Debug\net8.0-windows\UserPage.baml
 C:\Users\skuzi\Documents\GitHub\studentoo\obj\Debug\net8.0-windows\HomePage.baml
 C:\Users\skuzi\Documents\GitHub\studentoo\obj\Debug\net8.0-windows\HomePage.g.cs
+C:\Users\skuzi\Documents\GitHub\studentoo\obj\Debug\net8.0-windows\App.baml

@@ -97,8 +97,7 @@ namespace studentoo
         }
         void PowrotDoLogowania()
         {
-            new loginPage().Show();
-            Window.GetWindow(this)?.Close();
+            this.NavigationService?.Navigate(new loginPage());
         }
 
     }
