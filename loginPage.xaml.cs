@@ -76,5 +76,21 @@ namespace studentoo
             MainWindow main = new MainWindow();
             main.Show();
         }
+
+        private void btnRejestracja_Click(object sender, RoutedEventArgs e)
+        {
+            var registrationPage = new Rejestracja1();
+            var registrationWindow = new Window
+            {
+                Title = "Rejestracja",
+                Content = registrationPage,
+                Width = 600,
+                Height = 500,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen
+            };
+
+            registrationWindow.Show();
+            this.Close();
+        }
     }
 }

@@ -5,16 +5,64 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:studentoo"
         mc:Ignorable="d"
-        Title="loginPage" Height="450" Width="800">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0*"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <TextBox x:Name="txtLogin" HorizontalAlignment="Center" Margin="0,142,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
-        <Label Content="LOGIN:" HorizontalAlignment="Center" Margin="0,98,0,0" VerticalAlignment="Top" Grid.Column="1"/>
-        <Label Content="HASŁO:" HorizontalAlignment="Center" Margin="0,185,0,0" VerticalAlignment="Top" Grid.Column="1"/>
-        <Button x:Name="btnLogin" Content="Zatwierdź" HorizontalAlignment="Center" Margin="0,270,0,0" VerticalAlignment="Top" Grid.Column="1" Click="btnLogin_Click"/>
-        <PasswordBox x:Name="txtHaslo" HorizontalAlignment="Center" Margin="0,217,0,0" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        Title="Logowanie" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Background="#f2f2f2">
+        <Border Background="White" CornerRadius="12" Padding="30"
+                BorderBrush="#ccc" BorderThickness="1" 
+                VerticalAlignment="Center" HorizontalAlignment="Center" 
+                Width="350" Height="414">
+
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                <TextBlock Text="Logowanie" 
+                           FontSize="24" FontWeight="Bold" 
+                           TextAlignment="Center" Margin="0,0,0,30"/>
+
+                <TextBlock Text="Login:" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtLogin" Height="30" Padding="5"/>
+
+                <TextBlock Text="Hasło:" Margin="0,15,0,5"/>
+                <PasswordBox x:Name="txtHaslo" Height="30" Padding="5"/>
+
+                <Button x:Name="btnLogin" Content="Zaloguj się" 
+                        Width="150" Height="35" Margin="0,30,0,10"
+                        HorizontalAlignment="Center" 
+                        Background="#4CAF50" Foreground="White"
+                        Click="btnLogin_Click"/>
+
+                <TextBlock Text="Lub" TextAlignment="Center" Margin="0,10"/>
+
+                <Button x:Name="btnRejestracja" 
+                        Content="Nie masz konta? Zarejestruj się" 
+                        Width="150" Height="35" Margin="0,30,0,10"
+                        HorizontalAlignment="Center" 
+                        Background="#4CAF50" Foreground="White"
+                        Click="btnRejestracja_Click"/>
+            </StackPanel>
+        </Border>
     </Grid>
+
+    <Window.Resources>
+        <Style x:Key="LinkButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="#0066cc"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <TextBlock Text="{TemplateBinding Content}" 
+                                   TextDecorations="Underline"
+                                   Padding="5"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="#004499"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
 </Window>
