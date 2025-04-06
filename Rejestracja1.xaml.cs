@@ -87,17 +87,18 @@ namespace studentoo
                 db.SaveChanges();
 
                 MessageBox.Show("Rejestracja zakończona sukcesem.");
-                if (NavigationService != null)
-                {
-                    NavigationService.Navigate(new loginPage());
-                }
-               
-                else
-                {
-                    new loginPage().Show();
-                    Window.GetWindow(this)?.Close();
-                }
+
+                PowrotDoLogowania();
             }
+        }
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            PowrotDoLogowania();
+        }
+        void PowrotDoLogowania()
+        {
+            new loginPage().Show();
+            Window.GetWindow(this)?.Close();
         }
 
     }

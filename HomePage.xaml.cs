@@ -24,7 +24,6 @@ namespace studentoo
         {
             using (var db = new UserDataContext())
             {
-                // Pobierz użytkowników do dopasowania (oprócz zalogowanego)
                 potentialMatches = db.Users
                     .Where(u => u.id != loggedInUserId)
                     .ToList();
@@ -38,14 +37,13 @@ namespace studentoo
             if (currentIndex < potentialMatches.Count)
             {
                 var likedUser = potentialMatches[currentIndex];
-                // Zapisz polubienie w bazie danych
-                //SaveMatchAction(likedUser.id, "LIKE");
+            
                 currentIndex++;
                 //ShowNextUser();
             }
         }
 
-        // Analogiczne metody dla Dislike i SuperLike...
+     
 
         private void ViewProfile_Click(object sender, RoutedEventArgs e)
         {

@@ -6,7 +6,6 @@ namespace studentoo
 {
     public partial class loginPage : Window
     {
-        // Publiczna właściwość do przechowywania ID zalogowanego użytkownika
         public int LoggedInUserId { get; private set; }
 
         public loginPage()

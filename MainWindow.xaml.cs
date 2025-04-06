@@ -5,7 +5,7 @@ namespace studentoo
 {
     public partial class MainWindow : Window
     {
-        private int currentUserId; // ID zalogowanego użytkownika
+        private int currentUserId;
 
         public MainWindow(int userId)
         {
@@ -16,13 +16,13 @@ namespace studentoo
 
         private void LoadHomePage()
         {
-            // Tutaj załaduj stronę główną z kartami użytkowników
+          
             MainFrame.Navigate(new HomePage(currentUserId));
         }
 
         private void btnProfile_Click(object sender, RoutedEventArgs e)
         {
-            // Przejdź do profilu zalogowanego użytkownika
+            
             MainFrame.Navigate(new UserPage(currentUserId));
         }
 
@@ -33,13 +33,13 @@ namespace studentoo
 
         private void btnMessages_Click(object sender, RoutedEventArgs e)
         {
-            // Przejdź do wiadomości
+           
            // MainFrame.Navigate(new MessagesPage(currentUserId));
         }
 
         private void btnLike_Click(object sender, RoutedEventArgs e)
         {
-            // Logika polubienia
+            
             if (MainFrame.Content is HomePage homePage)
             {
                 homePage.LikeCurrentUser();
@@ -48,7 +48,7 @@ namespace studentoo
 
         private void btnDislike_Click(object sender, RoutedEventArgs e)
         {
-            // Logika odrzucenia
+            
             if (MainFrame.Content is HomePage homePage)
             {
                // homePage.DislikeCurrentUser();
@@ -63,6 +63,7 @@ namespace studentoo
            
             this.Close();
         }
+       
 
     }
 }

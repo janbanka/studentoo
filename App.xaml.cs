@@ -18,5 +18,6 @@ public partial class App : Application
         var loginWindow = new loginPage();
        
     }
+
 }
 

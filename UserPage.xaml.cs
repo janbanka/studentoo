@@ -23,9 +23,9 @@ namespace studentoo
                 if (currentUser != null)
                 {
                     txtUserName.Text = $"{currentUser.name} {currentUser.surname}, {currentUser.age}";
-                    txtDescription.Text = currentUser.description ?? "Brak opisu";
+                   
                     txtBio.Text = currentUser.description ?? "Brak dodatkowych informacji";
-                    // Tutaj można dodać więcej danych np. lokalizację, zainteresowania itp.
+                    
                 }
             }
         }
