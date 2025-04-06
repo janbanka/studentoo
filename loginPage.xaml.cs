@@ -26,6 +26,7 @@ namespace studentoo
         public loginPage()
         {
             InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)

@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:studentoo"
         mc:Ignorable="d"
-        Title="Logowanie" Height="450" Width="800"
+        Title="Logowanie" Height="455" Width="800"
         WindowStartupLocation="CenterScreen">
 
-    <Grid Background="#f2f2f2">
+    <Grid Background="#FFF5C4FF">
         <Border Background="White" CornerRadius="12" Padding="30"
                 BorderBrush="#ccc" BorderThickness="1" 
                 VerticalAlignment="Center" HorizontalAlignment="Center" 
@@ -28,7 +28,7 @@
                 <Button x:Name="btnLogin" Content="Zaloguj się" 
                         Width="150" Height="35" Margin="0,30,0,10"
                         HorizontalAlignment="Center" 
-                        Background="#4CAF50" Foreground="White"
+                        Background="#FFC791D2" Foreground="White"
                         Click="btnLogin_Click"/>
 
                 <TextBlock Text="Lub" TextAlignment="Center" Margin="0,10"/>
@@ -37,7 +37,7 @@
                         Content="Nie masz konta? Zarejestruj się" 
                         Width="150" Height="35" Margin="0,30,0,10"
                         HorizontalAlignment="Center" 
-                        Background="#4CAF50" Foreground="White"
+                        Background="#FFC791D2" Foreground="White"
                         Click="btnRejestracja_Click"/>
             </StackPanel>
         </Border>

@@ -91,11 +91,11 @@ namespace studentoo
                 {
                     NavigationService.Navigate(new loginPage());
                 }
-                // Opcja 2: Otwórz loginPage jako Window (jeśli to Window)
+               
                 else
                 {
                     new loginPage().Show();
-                    Window.GetWindow(this)?.Close(); // Zamknij bieżące okno
+                    Window.GetWindow(this)?.Close();
                 }
             }
         }

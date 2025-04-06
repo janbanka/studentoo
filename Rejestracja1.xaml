@@ -8,7 +8,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Rejestracja1">
 
-    <Grid Background="#f2f2f2">
+    <Grid Background="#FFF5C4FF">
         <Border Background="White" CornerRadius="12" Padding="30"
                 BorderBrush="#ccc" BorderThickness="1" VerticalAlignment="Center" HorizontalAlignment="Center" Height="430">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="300">
@@ -36,7 +36,7 @@
                 <TextBlock Text="Data urodzenia:" />
                 <TextBox x:Name="txtDataUro" />
 
-                <Button x:Name="btnRejestracja" Content="Zarejestruj się" Width="150" Height="35" Margin="0,20,0,0" HorizontalAlignment="Center" Background="#4CAF50" Foreground="White" Click="btnRejestracja_Click" />
+                <Button x:Name="btnRejestracja" Content="Zarejestruj się" Width="150" Height="35" Margin="0,20,0,0" HorizontalAlignment="Center" Background="#FFC791D2" Foreground="White" Click="btnRejestracja_Click" />
             </StackPanel>
         </Border>
     </Grid>
