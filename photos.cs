@@ -12,7 +12,8 @@ namespace studentoo
         [Key]
         public int id { get; set; }
         public int user_id { get; set; }
-        public string url { get; set; } = "";
+        public byte[] photo_data { get; set; }
+
         public DateTime uploaded_at { get; set; } = DateTime.Now;
 
     }

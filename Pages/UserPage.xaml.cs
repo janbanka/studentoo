@@ -92,10 +92,26 @@ namespace studentoo
             currentPhotoIndex = Math.Clamp(currentPhotoIndex, 0, userPhotos.Count - 1);
 
             var currentPhoto = userPhotos[currentPhotoIndex];
-            currentPhotoImage.Source = new BitmapImage(new Uri(currentPhoto.url, UriKind.Absolute));
+            currentPhotoImage.Source = LoadImage(currentPhoto.photo_data);
 
             btnPrevPhoto.Visibility = currentPhotoIndex > 0 ? Visibility.Visible : Visibility.Collapsed;
             btnNextPhoto.Visibility = currentPhotoIndex < userPhotos.Count - 1 ? Visibility.Visible : Visibility.Collapsed;
+        }
+        private BitmapImage LoadImage(byte[] imageData)
+        {
+            if (imageData == null || imageData.Length == 0)
+                return null;
+
+            using (var stream = new System.IO.MemoryStream(imageData))
+            {
+                var image = new BitmapImage();
+                image.BeginInit();
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.StreamSource = stream;
+                image.EndInit();
+                image.Freeze();
+                return image;
+            }
         }
 
         private void btnAddPhoto_Click(object sender, RoutedEventArgs e)
@@ -111,19 +127,20 @@ namespace studentoo
                 try
                 {
                     string filePath = dialog.FileName;
-                    var imageUri = new Uri(filePath, UriKind.Absolute);
+                    byte[] imageBytes = System.IO.File.ReadAllBytes(filePath);
 
                     using (var db = new UserDataContext())
                     {
                         var photo = new photos
                         {
                             user_id = currentUser.id,
-                            url = imageUri.ToString(),
+                            photo_data = imageBytes,
                             uploaded_at = DateTime.Now
                         };
 
                         db.photos.Add(photo);
                         db.SaveChanges();
+
                         userPhotos.Insert(0, photo);
                         currentPhotoIndex = 0;
                         ShowCurrentPhoto();
