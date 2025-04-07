@@ -4,8 +4,12 @@
       Title="HomePage" Height="Auto" Width="Auto">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0*"/>
+            <RowDefinition Height="0*"/>
+        </Grid.RowDefinitions>
         <!-- Karty użytkowników -->
-        <ItemsControl x:Name="UsersCardsContainer">
+        <ItemsControl x:Name="UsersCardsContainer" Grid.RowSpan="2">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Border Background="White" CornerRadius="15" Margin="10" 
