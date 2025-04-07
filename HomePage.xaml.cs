@@ -13,11 +13,14 @@ namespace studentoo
         private int currentIndex = 0;
         private int loggedInUserId;
 
-        public HomePage(int userId)
+        public HomePage()
         {
             InitializeComponent();
-            loggedInUserId = userId;
-            LoadPotentialMatches();
+            if (App.LoggedInUser != null)
+            {
+                loggedInUserId = App.LoggedInUser.id;
+                LoadPotentialMatches();
+            }
         }
 
         private void LoadPotentialMatches()
@@ -34,6 +37,8 @@ namespace studentoo
 
         public void LikeCurrentUser()
         {
+            if (App.LoggedInUser == null) return;
+
             if (currentIndex < potentialMatches.Count)
             {
                 var likedUser = potentialMatches[currentIndex];
@@ -47,6 +52,8 @@ namespace studentoo
 
         private void ViewProfile_Click(object sender, RoutedEventArgs e)
         {
+            if (App.LoggedInUser == null) return;
+
             var button = (Button)sender;
             int userId = (int)button.Tag;
 

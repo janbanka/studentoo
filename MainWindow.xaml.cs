@@ -8,25 +8,42 @@ namespace studentoo
     {
         private int currentUserId;
 
-        public MainWindow(int userId)
+        public MainWindow()
         {
             InitializeComponent();
-            currentUserId = userId;
-            LoadHomePage();
             App.MainF = this.MainFrame;
-            MainFrame.Navigate(new loginPage());
+            LoadHomePage();
+            UpdateLoginStateUI();
+        }
+
+        public void UpdateLoginStateUI()
+        {
+            if (App.LoggedInUser == null)
+            {
+                btnLogin.Visibility = Visibility.Visible;
+                btnLogout.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                btnLogin.Visibility = Visibility.Collapsed;
+                btnLogout.Visibility = Visibility.Visible;
+            }
         }
 
         private void LoadHomePage()
         {
           
-            MainFrame.Navigate(new HomePage(currentUserId));
+            MainFrame.Navigate(new HomePage());
         }
 
         private void btnProfile_Click(object sender, RoutedEventArgs e)
         {
-            
-            MainFrame.Navigate(new UserPage(currentUserId));
+            if (App.LoggedInUser == null)
+            {
+                MessageBox.Show("Musisz się zalogować, aby zobaczyć profil.");
+                return;
+            }
+            MainFrame.Navigate(new UserPage(App.LoggedInUser.id));
         }
 
         private void btnHome_Click(object sender, RoutedEventArgs e)
@@ -36,13 +53,21 @@ namespace studentoo
 
         private void btnMessages_Click(object sender, RoutedEventArgs e)
         {
-           
-           // MainFrame.Navigate(new MessagesPage(currentUserId));
+            if (App.LoggedInUser == null)
+            {
+                MessageBox.Show("Musisz się zalogować, aby zobaczyć profil.");
+                return;
+            }
+            // MainFrame.Navigate(new MessagesPage(App.LoggedInUser.id));
         }
 
         private void btnLike_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (App.LoggedInUser == null)
+            {
+                MessageBox.Show("Musisz się zalogować, aby zobaczyć profil.");
+                return;
+            }
             if (MainFrame.Content is HomePage homePage)
             {   
                 homePage.LikeCurrentUser();
@@ -51,7 +76,11 @@ namespace studentoo
 
         private void btnDislike_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (App.LoggedInUser == null)
+            {
+                MessageBox.Show("Musisz się zalogować, aby zobaczyć profil.");
+                return;
+            }
             if (MainFrame.Content is HomePage homePage)
             {
                // homePage.DislikeCurrentUser();
@@ -60,7 +89,9 @@ namespace studentoo
 
         private void btnLogout_Click(object sender, RoutedEventArgs e)
         {
-            App.MainF.Navigate(new loginPage());
+            App.LoggedInUser = null;
+            UpdateLoginStateUI();
+            MainFrame.Navigate(new HomePage());
         }
 
         protected override void OnClosed(EventArgs e)
@@ -70,5 +101,9 @@ namespace studentoo
             base.OnClosed(e);
         }
 
+        private void btnLogin_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new loginPage());
+        }
     }
 }

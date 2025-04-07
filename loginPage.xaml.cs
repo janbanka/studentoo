@@ -33,10 +33,14 @@ namespace studentoo
                         {
                             IsLoggedIn = true;
                             LoggedInUserId = user.id;
-                            var mainWindow = new MainWindow(LoggedInUserId);
-                            mainWindow.Show();
+                            App.LoggedInUser = user;
 
-                            Window.GetWindow(this)?.Close();
+                            if (App.MainF != null)
+                            {
+                                var mw = (MainWindow)Application.Current.MainWindow;
+                                mw.UpdateLoginStateUI();
+                                App.MainF.Navigate(new HomePage());
+                            }
 
                         }
                         else

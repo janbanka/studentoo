@@ -31,12 +31,19 @@
                 </StackPanel>
 
                 <!-- Wyloguj się (prawa strona) -->
+                
                 <Button x:Name="btnLogout" Content="🚪" FontSize="20" 
                 ToolTip="Wyloguj się"
                 HorizontalAlignment="Right" VerticalAlignment="Center"
                 Margin="0,0,10,0"
                 Grid.Column="2"
                 Click="btnLogout_Click"
+                />
+                <Button x:Name="btnLogin" Content="🚪" FontSize="20" 
+                ToolTip="Zaloguj się"
+                HorizontalAlignment="Right" VerticalAlignment="Center"
+                Margin="0,0,10,0"
+                Grid.Column="2" Click="btnLogin_Click"
                 />
             </Grid>
         </Border>

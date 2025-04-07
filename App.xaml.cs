@@ -13,5 +13,8 @@ public partial class App : Application
 {
     public static Frame MainF { get; set; }
     public static Frame MainFrame => ((MainWindow)Current.MainWindow).MainFrame;
+    public static User? LoggedInUser { get; set; } = null;
 }
+
+
 
