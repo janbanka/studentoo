@@ -50,6 +50,41 @@
             <Setter Property="Padding" Value="8,5,8,5"/>
             <Setter Property="Margin" Value="0,0,5,5"/>
         </Style>
+
+        <Style x:Key="NavigationButton" TargetType="Button">
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="80"/>
+            <Setter Property="Background" Value="#AAFFFFFF"/>
+            <Setter Property="Foreground" Value="#FFFE3C72"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <Style x:Key="AddPhotoButton" TargetType="Button">
+            <Setter Property="Content" Value="➕ Dodaj zdjęcie"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Margin" Value="0,0,0,20"/>
+        </Style>
+
+        <Style x:Key="DeletePhotoButton" TargetType="Button" BasedOn="{StaticResource IconButton}">
+            <Setter Property="Content" Value="❌"/>
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
     </Page.Resources>
 
     <Grid>
@@ -74,45 +109,64 @@
                         <RowDefinition Height="200"/>
                     </Grid.RowDefinitions>
 
-                    <!-- Zdjęcia -->
+                    <!-- Zdjęcie profilowe z nawigacją -->
                     <Border Background="#FFFE3C72" CornerRadius="15,15,0,0" Grid.Row="0">
-                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-                            <ItemsControl x:Name="photoCarousel">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal"/>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                            </ItemsControl>
-                        </ScrollViewer>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Przycisk poprzednie zdjęcie -->
+                            <Button x:Name="btnPrevPhoto" Content="◄" 
+                                    Grid.Column="0" VerticalAlignment="Center"
+                                    Style="{StaticResource NavigationButton}"
+                                    Click="btnPrevPhoto_Click"
+                                    Visibility="Collapsed"/>
+
+                            <!-- Aktualne zdjęcie -->
+                            <Image x:Name="currentPhotoImage" 
+                                   Grid.Column="1"
+                                   Stretch="UniformToFill"
+                                   Margin="10"/>
+
+                            <!-- Przycisk następne zdjęcie -->
+                            <Button x:Name="btnNextPhoto" Content="►" 
+                                    Grid.Column="2" VerticalAlignment="Center"
+                                    Style="{StaticResource NavigationButton}"
+                                    Click="btnNextPhoto_Click"
+                                    Visibility="Collapsed"/>
+
+                            <!-- Przycisk usuwania zdjęcia (widoczny tylko w trybie edycji) -->
+                            <Button x:Name="btnDeletePhoto"
+                                    Grid.Column="1"
+                                    Style="{StaticResource DeletePhotoButton}"
+                                    Click="DeletePhoto_Click"
+                                    Visibility="Collapsed"/>
+                        </Grid>
                     </Border>
 
-                    <!-- Przycisk Dodaj zdjęcie -->
-                    <Button x:Name="btnAddPhoto" Content="➕ Dodaj zdjęcie"
-                            Width="200" Height="40"
-                            Margin="0,0,0,20"
-                            VerticalAlignment="Bottom"
-                            HorizontalAlignment="Center"
-                            Visibility="Collapsed"
-                            Click="btnAddPhoto_Click"
-                            Style="{StaticResource ActionButton}"
+                    <!-- Przycisk dodawania zdjęcia (widoczny tylko w trybie edycji) -->
+                    <Button x:Name="btnAddPhoto"
                             Grid.Row="0"
-                            Panel.ZIndex="10"/>
+                            Style="{StaticResource AddPhotoButton}"
+                            Click="btnAddPhoto_Click"
+                            Visibility="Collapsed"/>
 
                     <!-- Informacje o użytkowniku -->
-                    <Border Background="White" CornerRadius="0,0,15,15" 
-                            Grid.Row="1" Padding="20">
+                    <Border Background="White" CornerRadius="0,0,15,15" Grid.Row="1" Padding="20">
                         <StackPanel>
                             <TextBlock x:Name="txtUserName" Text="Jan Kowalski, 25" 
                                        FontSize="24" FontWeight="Bold"/>
 
-                            <!-- Tag podgląd -->
+                            <!-- Zainteresowania - tryb podglądu -->
                             <WrapPanel x:Name="panelTagsView" Margin="0,10,0,0"/>
 
-                            <!-- Tag edycja -->
+                            <!-- Zainteresowania - tryb edycji -->
                             <WrapPanel x:Name="panelTagsEdit" Margin="0,10,0,0" Visibility="Collapsed"/>
 
-                            <!-- Dodawanie tagu -->
+                            <!-- Dodawanie nowego tagu -->
                             <StackPanel x:Name="addTagPanel" Orientation="Horizontal" 
                                         Margin="0,10,0,0" Visibility="Collapsed">
                                 <TextBox x:Name="txtNewTag" Width="300" Margin="0,0,10,0"/>
@@ -140,10 +194,10 @@
             </StackPanel>
         </ScrollViewer>
 
-        <!-- Dolny pasek -->
+        <!-- Dolny pasek z przyciskami akcji -->
         <Border Background="White" Height="80" VerticalAlignment="Bottom">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                
+               
                 <Button x:Name="btnEdit" Content="✏️" FontSize="24" 
                         Style="{StaticResource ActionButton}"
                         Foreground="#2196F3" Click="btnEdit_Click"/>

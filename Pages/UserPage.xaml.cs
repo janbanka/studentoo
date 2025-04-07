@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -9,17 +12,15 @@ namespace studentoo
     public partial class UserPage : Page
     {
         private bool isEditMode = false;
-
         private User currentUser;
-        private List<string> interests = new List<string>() {};
-        private List<photos> userPhotos = new();
+        private List<string> interests = new List<string>();
+        private List<photos> userPhotos = new List<photos>();
+        private int currentPhotoIndex = 0;
 
         public UserPage(int userId)
         {
             InitializeComponent();
             LoadUserProfile(userId);
-            LoadUserProfile(userId);
-
         }
 
         private void LoadUserProfile(int userId)
@@ -55,6 +56,7 @@ namespace studentoo
                 MessageBox.Show($"Błąd ładowania profilu: {ex.Message}");
             }
         }
+
         private void LoadUserPhotos(int userId)
         {
             try
@@ -67,7 +69,8 @@ namespace studentoo
                         .AsNoTracking()
                         .ToList();
 
-                    RefreshPhotos();
+                    currentPhotoIndex = 0;
+                    ShowCurrentPhoto();
                 }
             }
             catch (Exception ex)
@@ -75,6 +78,26 @@ namespace studentoo
                 MessageBox.Show($"Błąd ładowania zdjęć: {ex.Message}");
             }
         }
+
+        private void ShowCurrentPhoto()
+        {
+            if (userPhotos.Count == 0)
+            {
+                currentPhotoImage.Source = null;
+                btnPrevPhoto.Visibility = Visibility.Collapsed;
+                btnNextPhoto.Visibility = Visibility.Collapsed;
+                return;
+            }
+
+            currentPhotoIndex = Math.Clamp(currentPhotoIndex, 0, userPhotos.Count - 1);
+
+            var currentPhoto = userPhotos[currentPhotoIndex];
+            currentPhotoImage.Source = new BitmapImage(new Uri(currentPhoto.url, UriKind.Absolute));
+
+            btnPrevPhoto.Visibility = currentPhotoIndex > 0 ? Visibility.Visible : Visibility.Collapsed;
+            btnNextPhoto.Visibility = currentPhotoIndex < userPhotos.Count - 1 ? Visibility.Visible : Visibility.Collapsed;
+        }
+
         private void btnAddPhoto_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new Microsoft.Win32.OpenFileDialog
@@ -102,9 +125,9 @@ namespace studentoo
                         db.photos.Add(photo);
                         db.SaveChanges();
                         userPhotos.Insert(0, photo);
+                        currentPhotoIndex = 0;
+                        ShowCurrentPhoto();
                     }
-
-                    RefreshPhotos();
                 }
                 catch (Exception ex)
                 {
@@ -112,35 +135,10 @@ namespace studentoo
                 }
             }
         }
-        private void DeletePhoto(string url)
-        {
-            using (var db = new UserDataContext())
-            {
-                var photo = db.photos.FirstOrDefault(p => p.url == url && p.user_id == currentUser.id);
-                if (photo != null)
-                {
-                    db.photos.Remove(photo);
-                    db.SaveChanges();
-                }
-            }
-            LoadUserPhotos(currentUser.id);
-        }
-        
 
-        private void btnBack_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationService?.GoBack();
-        }
-
-        private void btnMessage_Click(object sender, RoutedEventArgs e)
-        {
-            //przenosi na strone chatu z chatami
-            
-        }
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
             isEditMode = true;
-           
 
             txtBioEdit.Text = txtBio.Text;
             txtBio.Visibility = Visibility.Collapsed;
@@ -154,8 +152,6 @@ namespace studentoo
             addTagPanel.Visibility = Visibility.Visible;
 
             btnAddPhoto.Visibility = Visibility.Visible;
-            
-            RefreshPhotos();
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
@@ -174,129 +170,33 @@ namespace studentoo
             addTagPanel.Visibility = Visibility.Collapsed;
 
             btnAddPhoto.Visibility = Visibility.Collapsed;
-            RefreshPhotos();
 
             if (currentUser != null)
             {
                 try
                 {
                     using (var db = new UserDataContext())
-            {
-                var userToUpdate = db.Users.FirstOrDefault(u => u.id == currentUser.id);
-                if (userToUpdate != null)
-                {
-                    userToUpdate.description = txtBioEdit.Text;
-                    userToUpdate.interests = string.Join(",", interests);
-                    db.SaveChanges();
-
-                    currentUser.description = userToUpdate.description;
-                    currentUser.interests = userToUpdate.interests;
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Błąd zapisu: {ex.InnerException?.Message ?? ex.Message}");
-        }
-    }
-
-    RenderInterests();
-}
-
-        private void RefreshPhotos()
-        {
-            if (photoCarousel == null) return;
-
-            // Clear existing items and event handlers
-            if (photoCarousel.ItemsSource != null)
-            {
-                photoCarousel.ItemsSource = null;
-            }
-            else
-            {
-                photoCarousel.Items.Clear();
-            }
-
-            var photoList = new List<UIElement>();
-
-            foreach (var photo in userPhotos)
-            {
-                try
-                {
-                    var image = new Image
                     {
-                        Source = new BitmapImage(new Uri(photo.url, UriKind.Absolute))
+                        var userToUpdate = db.Users.FirstOrDefault(u => u.id == currentUser.id);
+                        if (userToUpdate != null)
                         {
-                            CacheOption = BitmapCacheOption.OnLoad,
-                            CreateOptions = BitmapCreateOptions.IgnoreImageCache
-                        },
-                        Width = 450,
-                        Height = 300,
-                        Stretch = Stretch.UniformToFill,
-                        Margin = new Thickness(5)
-                    };
-
-                    var grid = new Grid();
-                    grid.Children.Add(image);
-
-                    if (isEditMode)
-                    {
-                        var deleteButton = new Button
-                        {
-                            Content = "❌",
-                            Width = 24,
-                            Height = 24,
-                            HorizontalAlignment = HorizontalAlignment.Right,
-                            VerticalAlignment = VerticalAlignment.Top,
-                            Margin = new Thickness(0, 5, 5, 0),
-                            Tag = photo,
-                            Style = (Style)FindResource("IconButton")
-                        };
-                        deleteButton.Click += DeletePhoto_Click;
-                        grid.Children.Add(deleteButton);
-                    }
-                
-
-                    photoList.Add(grid);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error loading photo {photo.url}: {ex.Message}");
-                }
-            }
-
-            photoCarousel.ItemsSource = photoList;
-        }
-
-
-        private void DeletePhoto_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is Button button && button.Tag is photos photoToDelete)
-            {
-                try
-                {
-                    using (var db = new UserDataContext())
-                    {
-                        var photoInDb = db.photos.FirstOrDefault(p => p.id == photoToDelete.id);
-                        if (photoInDb != null)
-                        {
-                            db.photos.Remove(photoInDb);
+                            userToUpdate.description = txtBioEdit.Text;
+                            userToUpdate.interests = string.Join(",", interests);
                             db.SaveChanges();
+
+                            currentUser.description = userToUpdate.description;
+                            currentUser.interests = userToUpdate.interests;
                         }
                     }
-
-                    userPhotos.Remove(photoToDelete);
-                    RefreshPhotos();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Błąd usuwania zdjęcia: {ex.Message}");
+                    MessageBox.Show($"Błąd zapisu: {ex.InnerException?.Message ?? ex.Message}");
                 }
             }
+
+            RenderInterests();
         }
-
-
-
 
         private void RenderInterests()
         {
@@ -331,10 +231,10 @@ namespace studentoo
                 {
                     Orientation = Orientation.Horizontal,
                     Children =
-            {
-                new TextBlock { Text = interest, FontSize = 12, VerticalAlignment = VerticalAlignment.Center },
-                btnRemove
-            }
+                    {
+                        new TextBlock { Text = interest, FontSize = 12, VerticalAlignment = VerticalAlignment.Center },
+                        btnRemove
+                    }
                 };
 
                 var tagEditBorder = new Border
@@ -345,9 +245,62 @@ namespace studentoo
                     Margin = new Thickness(0, 0, 5, 5),
                     Child = tagEditPanel
                 };
-
                 panelTagsEdit.Children.Add(tagEditBorder);
             }
+        }
+
+        private void RemoveInterest_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is string tag)
+            {
+                interests.Remove(tag);
+                RenderInterests();
+            }
+        }
+
+        private void btnPrevPhoto_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentPhotoIndex > 0)
+            {
+                currentPhotoIndex--;
+                ShowCurrentPhoto();
+            }
+        }
+      
+        private void DeletePhoto_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is photos photoToDelete)
+            {
+                try
+                {
+                    using (var db = new UserDataContext())
+                    {
+                        var photoInDb = db.photos.FirstOrDefault(p => p.id == photoToDelete.id);
+                        if (photoInDb != null)
+                        {
+                            db.photos.Remove(photoInDb);
+                            db.SaveChanges();
+                        }
+                    }
+
+                    userPhotos.Remove(photoToDelete);
+
+                    if (currentPhotoIndex >= userPhotos.Count)
+                    {
+                        currentPhotoIndex = Math.Max(0, userPhotos.Count - 1);
+                    }
+
+                    ShowCurrentPhoto();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Błąd usuwania zdjęcia: {ex.Message}");
+                }
+            }
+        }
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService?.GoBack();
         }
         private void btnAddTag_Click(object sender, RoutedEventArgs e)
         {
@@ -367,26 +320,13 @@ namespace studentoo
                 }
             }
         }
-        private void RemoveInterest_Click(object sender, RoutedEventArgs e)
+        private void btnNextPhoto_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button && button.Tag is string tag)
+            if (currentPhotoIndex < userPhotos.Count - 1)
             {
-                interests.Remove(tag);
-                RenderInterests();
+                currentPhotoIndex++;
+                ShowCurrentPhoto();
             }
         }
-        private void InitializePhotoCarousel()
-        {
-            if (photoCarousel == null)
-            {
-                photoCarousel = new ListBox
-                {
-                    ItemsPanel = new ItemsPanelTemplate(new FrameworkElementFactory(typeof(WrapPanel))),
-                    ItemTemplate = new DataTemplate()
-                };
-            }
-        }
-
-
     }
 }

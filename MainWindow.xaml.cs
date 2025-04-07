@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
 
 namespace studentoo
 {
@@ -45,7 +46,8 @@ namespace studentoo
                 MessageBox.Show("Musisz się zalogować.");
                 return;
             }
-            MainFrame.Navigate(new UserPage(App.LoggedInUser.id));
+            if(MainFrame.Content is not UserPage)
+                MainFrame.Navigate(new UserPage(App.LoggedInUser.id));
         }
 
         private void btnHome_Click(object sender, RoutedEventArgs e)
@@ -60,6 +62,7 @@ namespace studentoo
                 MessageBox.Show("Musisz się zalogować.");
                 return;
             }
+           // if (MainFrame.Content is not MessagesPage)
             // MainFrame.Navigate(new MessagesPage(App.LoggedInUser.id));
         }
 
