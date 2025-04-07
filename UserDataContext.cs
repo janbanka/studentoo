@@ -17,7 +17,7 @@ namespace studentoo
     public class UserDataContext : DbContext
     {
         public DbSet<User> Users { get; set; }
-
+        public DbSet<photos> photos { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
