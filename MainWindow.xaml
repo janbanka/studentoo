@@ -51,7 +51,7 @@
         <Frame x:Name="MainFrame" Margin="0,60,0,70" NavigationUIVisibility="Hidden"/>
 
         <!-- Dolny pasek akcji -->
-        <Border Background="White" Height="70" VerticalAlignment="Bottom">
+        <Border x:Name="brdrLike" Background="White" Height="70" VerticalAlignment="Bottom">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Button x:Name="btnDislike" 
                         Content="✖" FontSize="24" Foreground="#FF6B6B6B" Click="btnDislike_Click"/>

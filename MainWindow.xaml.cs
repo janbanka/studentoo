@@ -22,11 +22,13 @@ namespace studentoo
             {
                 btnLogin.Visibility = Visibility.Visible;
                 btnLogout.Visibility = Visibility.Collapsed;
+                brdrLike.Visibility = Visibility.Collapsed;
             }
             else
             {
                 btnLogin.Visibility = Visibility.Collapsed;
                 btnLogout.Visibility = Visibility.Visible;
+                brdrLike.Visibility = Visibility.Visible;
             }
         }
 
@@ -40,7 +42,7 @@ namespace studentoo
         {
             if (App.LoggedInUser == null)
             {
-                MessageBox.Show("Musisz się zalogować, aby zobaczyć profil.");
+                MessageBox.Show("Musisz się zalogować.");
                 return;
             }
             MainFrame.Navigate(new UserPage(App.LoggedInUser.id));
@@ -55,7 +57,7 @@ namespace studentoo
         {
             if (App.LoggedInUser == null)
             {
-                MessageBox.Show("Musisz się zalogować, aby zobaczyć profil.");
+                MessageBox.Show("Musisz się zalogować.");
                 return;
             }
             // MainFrame.Navigate(new MessagesPage(App.LoggedInUser.id));
@@ -65,7 +67,7 @@ namespace studentoo
         {
             if (App.LoggedInUser == null)
             {
-                MessageBox.Show("Musisz się zalogować, aby zobaczyć profil.");
+                MessageBox.Show("Musisz się zalogować.");
                 return;
             }
             if (MainFrame.Content is HomePage homePage)
@@ -78,7 +80,7 @@ namespace studentoo
         {
             if (App.LoggedInUser == null)
             {
-                MessageBox.Show("Musisz się zalogować, aby zobaczyć profil.");
+                MessageBox.Show("Musisz się zalogować.");
                 return;
             }
             if (MainFrame.Content is HomePage homePage)
