@@ -12,7 +12,8 @@ namespace studentoo
         public string email { get; set; }
         public string password_hash { get; set; }
         public int age { get; set; }
-        public string description { get; set; }
-        public DateTime created_at { get; set; }
+        public string description { get; set; } = "";
+        public string interests { get; set; } = "";
+        public DateTime created_at { get; set; } = DateTime.Now;
     }
 }
