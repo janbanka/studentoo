@@ -29,6 +29,7 @@ namespace studentoo
         {
             string name = txtImie.Text.Trim();
             string surname = txtNazwisko.Text.Trim();
+            string plec=null;
             string login = txtLogin.Text.Trim();
             string email = txtEmail.Text.Trim();
             string password = txtHaslo.Password;
@@ -38,11 +39,21 @@ namespace studentoo
             {
                 MessageBox.Show("Hasła muszą być identyczne!!!");
             }
+            if(rbMezczyzna.IsChecked==true)
+            {
+                plec = "M";
+            }
+            else if(rbKobieta.IsChecked==true)
+            {
+                plec = "K";
+            }
             if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(surname) ||
                 string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(email) ||
-                string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(ageText))
+                string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(ageText) || string.IsNullOrWhiteSpace(plec))
             {
+
                 MessageBox.Show("Uzupełnij wszystkie pola.");
+
                 return;
             }
 
@@ -80,7 +91,9 @@ namespace studentoo
                     password_hash = passwordHash,
                     age = age,
                     description=Opis,
-                    created_at = DateTime.Now
+                    created_at = DateTime.Now,
+                    plec=plec
+                    
                 };
 
                 db.Users.Add(newUser);

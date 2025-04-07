@@ -15,5 +15,6 @@ namespace studentoo
         public string description { get; set; } = "";
         public string interests { get; set; } = "";
         public DateTime created_at { get; set; } = DateTime.Now;
+        public string plec { get; set; }
     }
 }
