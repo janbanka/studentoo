@@ -96,7 +96,13 @@ namespace studentoo
 
             btnPrevPhoto.Visibility = currentPhotoIndex > 0 ? Visibility.Visible : Visibility.Collapsed;
             btnNextPhoto.Visibility = currentPhotoIndex < userPhotos.Count - 1 ? Visibility.Visible : Visibility.Collapsed;
+
+         
+            btnDeletePhoto.Tag = currentPhoto;
+            if(userPhotos.Count>0)
+                btnDeletePhoto.Visibility = isEditMode ? Visibility.Visible : Visibility.Collapsed;
         }
+        
         private BitmapImage LoadImage(byte[] imageData)
         {
             if (imageData == null || imageData.Length == 0)
@@ -156,7 +162,8 @@ namespace studentoo
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
             isEditMode = true;
-
+            if (userPhotos.Count > 0)
+                btnDeletePhoto.Visibility = Visibility.Visible;
             txtBioEdit.Text = txtBio.Text;
             txtBio.Visibility = Visibility.Collapsed;
             txtBioEdit.Visibility = Visibility.Visible;
@@ -174,7 +181,8 @@ namespace studentoo
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             isEditMode = false;
-
+            
+            btnDeletePhoto.Visibility = Visibility.Collapsed;
             txtBio.Text = txtBioEdit.Text;
             txtBio.Visibility = Visibility.Visible;
             txtBioEdit.Visibility = Visibility.Collapsed;
@@ -306,8 +314,10 @@ namespace studentoo
                     {
                         currentPhotoIndex = Math.Max(0, userPhotos.Count - 1);
                     }
-
+                    
                     ShowCurrentPhoto();
+                    if (userPhotos.Count == 0)
+                        btnDeletePhoto.Visibility = Visibility.Collapsed;
                 }
                 catch (Exception ex)
                 {
