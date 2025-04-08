@@ -11,6 +11,9 @@
     <Compile Update="Pages\Rejestracja1.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Pages\testowa.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Pages\UserPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

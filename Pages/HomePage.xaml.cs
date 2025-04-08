@@ -59,7 +59,7 @@ namespace studentoo
 
             // Otwórz profil w głównym frame
             var mainWindow = (MainWindow)Window.GetWindow(this);
-            mainWindow.MainFrame.Navigate(new UserPage(userId));
+           // mainWindow.MainFrame.Navigate(new UserPage(userId));
         }
 
         //private void SaveMatchAction(int targetUserId, string actionType)

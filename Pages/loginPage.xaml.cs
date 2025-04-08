@@ -35,12 +35,12 @@ namespace studentoo
                             LoggedInUserId = user.id;
                             App.LoggedInUser = user;
 
-                            if (App.MainF != null)
-                            {
-                                var mw = (MainWindow)Application.Current.MainWindow;
-                                mw.UpdateLoginStateUI();
-                                App.MainF.Navigate(new HomePage());
-                            }
+                            //if (App.MainF != null)
+                            //{
+                            //    var mw = (MainWindow)Application.Current.MainWindow;
+                            //    mw.UpdateLoginStateUI();
+                            //    App.MainF.Navigate(new HomePage());
+                            //}
 
                         }
                         else
