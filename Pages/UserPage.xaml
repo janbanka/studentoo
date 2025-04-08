@@ -100,12 +100,12 @@
 
                             <!-- Przycisk poprzednie zdjęcie -->
                             <Button x:Name="btnPrevPhoto" 
-        Grid.Column="0" VerticalAlignment="Center"
-        Style="{StaticResource ImageIconButton}"
-        Click="btnPrevPhoto_Click"
-        Visibility="Collapsed">
+                                Grid.Column="0" VerticalAlignment="Center"
+                                Style="{StaticResource ImageIconButton}"
+                                Click="btnPrevPhoto_Click"
+                                Visibility="Collapsed">
                                 <Image Source="/Icons/right-arrow.png"
-           RenderTransformOrigin="0.5,0.5">
+                                    RenderTransformOrigin="0.5,0.5">
                                     <Image.RenderTransform>
                                         <RotateTransform Angle="180"/>
                                     </Image.RenderTransform>
