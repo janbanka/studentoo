@@ -99,11 +99,18 @@
                             </Grid.ColumnDefinitions>
 
                             <!-- Przycisk poprzednie zdjęcie -->
-                            <Button x:Name="btnPrevPhoto" Content="◄" 
-                                    Grid.Column="0" VerticalAlignment="Center"
-                                    Style="{StaticResource NavigationButton}"
-                                    Click="btnPrevPhoto_Click"
-                                    Visibility="Collapsed"/>
+                            <Button x:Name="btnPrevPhoto" 
+        Grid.Column="0" VerticalAlignment="Center"
+        Style="{StaticResource ImageIconButton}"
+        Click="btnPrevPhoto_Click"
+        Visibility="Collapsed">
+                                <Image Source="/Icons/right-arrow.png"
+           RenderTransformOrigin="0.5,0.5">
+                                    <Image.RenderTransform>
+                                        <RotateTransform Angle="180"/>
+                                    </Image.RenderTransform>
+                                </Image>
+                            </Button>
 
                             <!-- Aktualne zdjęcie -->
                             <Image x:Name="currentPhotoImage" 
@@ -112,11 +119,13 @@
                                    Margin="10"/>
 
                             <!-- Przycisk następne zdjęcie -->
-                            <Button x:Name="btnNextPhoto" Content="►" 
+                            <Button x:Name="btnNextPhoto"
                                     Grid.Column="2" VerticalAlignment="Center"
-                                    Style="{StaticResource NavigationButton}"
+                                    Style="{StaticResource ImageIconButton}"
                                     Click="btnNextPhoto_Click"
-                                    Visibility="Collapsed"/>
+                                    Visibility="Collapsed">
+                                <Image Source="/Icons/right-arrow.png"/>
+                            </Button>
 
                             <!-- Przycisk usuwania zdjęcia (widoczny tylko w trybie edycji) -->
                             <Button x:Name="btnDeletePhoto"
