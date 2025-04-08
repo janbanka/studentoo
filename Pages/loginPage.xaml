@@ -14,7 +14,7 @@
                 VerticalAlignment="Center" HorizontalAlignment="Center" 
                 Width="350" Height="414">
 
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="170">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="182">
                 <TextBlock Text="Logowanie" 
                            FontSize="24" FontWeight="Bold" 
                            TextAlignment="Center" Margin="0,0,0,30"/>
@@ -26,19 +26,20 @@
                 <PasswordBox x:Name="txtHaslo" Height="30" Padding="5"/>
 
                 <Button x:Name="btnLogin" Content="Zaloguj się" 
-                        Width="150" Height="35" Margin="0,30,0,10"
+                        Width="174" Height="35" Margin="0,30,0,10"
                         HorizontalAlignment="Center" 
                         Background="#FFC791D2" Foreground="White"
-                        Click="btnLogin_Click"/>
+                        Click="btnLogin_Click"
+                        Style="{StaticResource MinimalPrimaryButton}"/>
 
                 <TextBlock Text="Lub" TextAlignment="Center" Margin="0,0"/>
 
                 <Button x:Name="btnRejestracja" 
                         Content="Nie masz konta? Zarejestruj się" 
-                         Width="150" Height="35" Margin="0,5,0,10"
+                         Width="174" Height="40" Margin="0,5,0,10"
  HorizontalAlignment="Center" 
  Background="#FFC791D2" Foreground="White"
- Click="btnRejestracja_Click"/>
+ Click="btnRejestracja_Click" Style="{StaticResource MinimalPrimaryButton}"/>
             </StackPanel>
         </Border>
     </Grid>

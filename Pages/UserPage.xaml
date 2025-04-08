@@ -9,25 +9,7 @@
       Background="#FFECECEC">
 
     <Page.Resources>
-        <Style x:Key="ActionButton" TargetType="Button">
-            <Setter Property="Width" Value="60"/>
-            <Setter Property="Height" Value="60"/>
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="BorderBrush" Value="#E0E0E0"/>
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" 
-                                BorderBrush="{TemplateBinding BorderBrush}" 
-                                BorderThickness="{TemplateBinding BorderThickness}" 
-                                CornerRadius="30">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        
 
         <Style x:Key="IconButton" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
@@ -62,18 +44,14 @@
             <Setter Property="Cursor" Value="Hand"/>
         </Style>
 
-        <Style x:Key="AddPhotoButton" TargetType="Button">
-            <Setter Property="Content" Value="➕ Dodaj zdjęcie"/>
+        <Style x:Key="AddPhotoButton" TargetType="Button" BasedOn="{StaticResource MinimalIconButton}">
+            <Setter Property="Content" Value="➕"/>
             <Setter Property="Width" Value="200"/>
             <Setter Property="Height" Value="40"/>
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="BorderBrush" Value="#E0E0E0"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="FontSize" Value="14"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Bottom"/>
             <Setter Property="Margin" Value="0,0,0,20"/>
+            <Setter Property="FontSize" Value="14"/>
         </Style>
 
         <Style x:Key="DeletePhotoButton" TargetType="Button" BasedOn="{StaticResource IconButton}">
@@ -91,9 +69,11 @@
         <!-- Górny pasek -->
         <Border Background="#FFFE3C72" Height="60" VerticalAlignment="Top">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                <Button x:Name="btnBack" Content="←" FontSize="20" 
+                <Button x:Name="btnBack" FontSize="20" 
                         Foreground="White" Margin="10,0" Click="btnBack_Click"
-                        Style="{StaticResource IconButton}"/>
+                        Style="{StaticResource ImageIconButton}">
+                    <Image Source="/Icons/back-arrow.png" Height="30" Width="30" Stretch="Uniform"/>
+                </Button>
                 <TextBlock Text="Profil" Foreground="White" FontSize="18" FontWeight="Bold" 
                            VerticalAlignment="Center"/>
             </StackPanel>
@@ -168,10 +148,24 @@
 
                             <!-- Dodawanie nowego tagu -->
                             <StackPanel x:Name="addTagPanel" Orientation="Horizontal" 
-                                        Margin="0,10,0,0" Visibility="Collapsed">
-                                <TextBox x:Name="txtNewTag" Width="300" Margin="0,0,10,0"/>
-                                <Button Content="Dodaj" Click="btnAddTag_Click" Width="80"/>
+            Margin="0,10,0,0" Visibility="Collapsed">
+                                <TextBox x:Name="txtNewTag"
+             Width="300"
+             Height="35"
+             Margin="0,0,10,0"
+             TextWrapping="NoWrap"
+             AcceptsReturn="False"
+             VerticalAlignment="Center"
+             VerticalContentAlignment="Center" />
+
+                                <Button Content="➕"
+            Click="btnAddTag_Click"
+            Width="40"
+            Height="35"
+            Style="{StaticResource MinimalIconButton}"
+            VerticalAlignment="Center"/>
                             </StackPanel>
+
                         </StackPanel>
                     </Border>
                 </Grid>
@@ -199,11 +193,11 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                
                 <Button x:Name="btnEdit" Content="✏️" FontSize="24" 
-                        Style="{StaticResource ActionButton}"
+                        Style="{StaticResource MinimalIconButton}"
                         Foreground="#2196F3" Click="btnEdit_Click"/>
                 <Button x:Name="btnSave" Content="💾" FontSize="24" 
-                        Style="{StaticResource ActionButton}"
-                        Foreground="#FF9800" Margin="20,0,0,0" 
+                        Style="{StaticResource MinimalIconButton}"
+                        Foreground="#FF9800"  
                         Visibility="Collapsed" Click="btnSave_Click"/>
             </StackPanel>
         </Border>

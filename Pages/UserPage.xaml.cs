@@ -278,6 +278,7 @@ namespace studentoo
         {
             if (sender is Button button && button.Tag is string tag)
             {
+                
                 interests.Remove(tag);
                 RenderInterests();
             }

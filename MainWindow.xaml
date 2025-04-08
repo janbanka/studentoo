@@ -24,27 +24,42 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Przyciski nawigacyjne (środek) -->
-                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Button x:Name="btnProfile" Content="👤" FontSize="20" Click="btnProfile_Click"/>
-                    <Button x:Name="btnHome" Content="🏠" FontSize="20" Margin="40,0" Click="btnHome_Click" />
-                    <Button x:Name="btnMessages" Content="💬" FontSize="20" Click="btnMessages_Click" />
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                    <Button x:Name="btnProfile" FontSize="20" Click="btnProfile_Click" Style="{StaticResource MinimalIconButton}">
+                        <Image Source="Icons/user.png" Width="24" Height="24" Stretch="Uniform"/>
+                    </Button>
+                    <Button x:Name="btnHome" FontSize="20" Margin="40,0" Click="btnHome_Click" Style="{StaticResource MinimalIconButton}">
+                        <Image Source="Icons/home.png" Width="24" Height="24" Stretch="Uniform"/>
+                    </Button>
+                    <Button x:Name="btnMessages" FontSize="20" Click="btnMessages_Click" Style="{StaticResource MinimalIconButton}">
+                        <Image Source="/Icons/message.png" Width="24" Height="24" Stretch="Uniform"/>
+                    </Button>
                 </StackPanel>
 
                 <!-- Wyloguj się (prawa strona) -->
-                
-                <Button x:Name="btnLogout" Content="🚪" FontSize="20" 
-                ToolTip="Wyloguj się"
-                HorizontalAlignment="Right" VerticalAlignment="Center"
-                Margin="0,0,10,0"
-                Grid.Column="2"
-                Click="btnLogout_Click"
-                />
-                <Button x:Name="btnLogin" Content="🚪" FontSize="20" 
-                ToolTip="Zaloguj się"
-                HorizontalAlignment="Right" VerticalAlignment="Center"
-                Margin="0,0,10,0"
-                Grid.Column="2" Click="btnLogin_Click"
-                />
+
+                <Button x:Name="btnLogout"
+                    Width="32" Height="32"
+                    ToolTip="Wyloguj się"
+                    HorizontalAlignment="Right" VerticalAlignment="Center"
+                    Margin="0,0,10,0"
+                    Grid.Column="2"
+                    Click="btnLogout_Click"
+                    Style="{StaticResource ImageIconButton}">
+
+                    <Image Source="Icons/logout.png" Width="24" Height="24" Stretch="Uniform"/>
+                </Button>
+                <Button x:Name="btnLogin"
+                    Width="32" Height="32"
+                    ToolTip="Wyloguj się"
+                    HorizontalAlignment="Right" VerticalAlignment="Center"
+                    Margin="0,0,10,0"
+                    Grid.Column="2"
+                    Click="btnLogin_Click"
+                    Style="{StaticResource ImageIconButton}">
+
+                    <Image Source="Icons/logout.png" Width="24" Height="24" Stretch="Uniform"/>
+                </Button>
             </Grid>
         </Border>
         <!-- Główna zawartość -->
@@ -54,11 +69,11 @@
         <Border x:Name="brdrLike" Background="White" Height="70" VerticalAlignment="Bottom">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Button x:Name="btnDislike" 
-                        Content="✖" FontSize="24" Foreground="#FF6B6B6B" Click="btnDislike_Click"/>
+                        Content="✖" FontSize="24" Foreground="#FF6B6B6B" Click="btnDislike_Click" Style="{StaticResource MinimalIconButton}"/>
                 <Button x:Name="btnSuperLike"  
-                        Content="⭐" FontSize="24" Foreground="#2196F3" Margin="30,0" Width="37" />
+                        Content="⭐" FontSize="24" Foreground="#2196F3" Margin="30,0" Width="37" Style="{StaticResource MinimalIconButton}"/>
                 <Button x:Name="btnLike"
-                        Content="❤" FontSize="24" Foreground="#FFFE3C72" Click="btnLike_Click"/>
+                        Content="❤" FontSize="24" Foreground="#FFFE3C72" Click="btnLike_Click" Style="{StaticResource MinimalIconButton}"/>
             </StackPanel>
         </Border>
     </Grid>

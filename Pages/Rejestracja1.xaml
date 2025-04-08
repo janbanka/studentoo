@@ -40,9 +40,9 @@
                 <TextBlock Text="Data urodzenia:" />
                 <TextBox x:Name="txtDataUro" />
 
-                <Button x:Name="btnRejestracja" Content="Zarejestruj się" Width="150" Height="35" Margin="0,20,0,0" HorizontalAlignment="Center" Background="#FFC791D2" Foreground="White" Click="btnRejestracja_Click" />
-                <Button x:Name="btnBack" Content="← Powrót do logowania" Width="150" Height="35" Margin="0,5,0,20" 
-                        HorizontalAlignment="Center" Background="#FFC791D2" Foreground="White" Click="btnBack_Click" />
+                <Button x:Name="btnRejestracja" Content="Zarejestruj się" Width="162" Height="35" Margin="0,20,0,0" HorizontalAlignment="Center" Background="#FFC791D2" Foreground="White" Click="btnRejestracja_Click" Style="{StaticResource MinimalPrimaryButton}"/>
+                <Button x:Name="btnBack" Content="← Powrót do logowania" Width="162" Height="35" Margin="0,5,0,20" 
+                        HorizontalAlignment="Center" Background="#FFC791D2" Foreground="White" Click="btnBack_Click" Style="{StaticResource MinimalPrimaryButton}"/>
             </StackPanel>
         </Border>
     </Grid>
