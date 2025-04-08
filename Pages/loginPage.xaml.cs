@@ -3,6 +3,8 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace studentoo
 {
@@ -14,8 +16,25 @@ namespace studentoo
         public loginPage()
         {
             InitializeComponent();
+            SnackbarService.Initialize(SnackbarContainer, SnackbarMessage);
+        }
+        private void Button_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null)
+            {
+                button.RenderTransform = new ScaleTransform(0.95, 0.95);
+            }
         }
 
+        private void Button_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null)
+            {
+                button.RenderTransform = null;
+            }
+        }
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             var login = txtLogin.Text;
@@ -45,12 +64,12 @@ namespace studentoo
                         }
                         else
                         {
-                            MessageBox.Show("Nieprawidłowe hasło");
+                            SnackbarService.Show("Nieprawidłowe hasło");
                         }
                     }
                     else
                     {
-                        MessageBox.Show("Użytkownik o podanym loginie nie istnieje");
+                        SnackbarService.Show("Użytkownik o podanym loginie nie istnieje");
                     }
                 }
             }

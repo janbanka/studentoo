@@ -21,6 +21,7 @@ namespace studentoo
         {
             InitializeComponent();
             LoadUserProfile(userId);
+            SnackbarService.Initialize(SnackbarContainer, SnackbarMessage);
         }
 
         private void LoadUserProfile(int userId)
@@ -344,7 +345,7 @@ namespace studentoo
                 }
                 else
                 {
-                    MessageBox.Show("Możesz dodać maksymalnie 5 zainteresowań");
+                    SnackbarService.Show("Możesz dodać maksymalnie 5 zainteresowań");
                 }
             }
         }

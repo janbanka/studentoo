@@ -6,62 +6,99 @@
       xmlns:local="clr-namespace:studentoo"
       mc:Ignorable="d"
       Title="Logowanie"
-      Background="#FFF5C4FF">
+      Background="#FFF5F5F5">
 
     <Grid>
-        <Border Background="White" CornerRadius="12" Padding="30"
-                BorderBrush="#ccc" BorderThickness="1" 
-                VerticalAlignment="Center" HorizontalAlignment="Center" 
-                Width="350" Height="414">
+        <!-- Kontener formularza -->
+        <Border Background="White" 
+                CornerRadius="12" 
+                Padding="40"
+                BorderBrush="#E0E0E0" 
+                BorderThickness="1"
+                VerticalAlignment="Center" 
+                HorizontalAlignment="Center"
+                Width="380"
+                Height="480"
+                Effect="{StaticResource ShadowEffect}">
 
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="182">
-                <TextBlock Text="Logowanie" 
-                           FontSize="24" FontWeight="Bold" 
-                           TextAlignment="Center" Margin="0,0,0,30"/>
+            <StackPanel Orientation="Vertical" 
+                       HorizontalAlignment="Center" 
+                       Width="260">
 
-                <TextBlock Text="Login:" Margin="0,0,0,5"/>
-                <TextBox x:Name="txtLogin" Height="30" Padding="5"/>
+                <!-- Logo/nagłówek -->
+                <TextBlock Text="Studentoo" 
+                           FontSize="28" 
+                           FontWeight="Bold"
+                           Foreground="#FFFE3C72"
+                           TextAlignment="Center" 
+                           Margin="0,0,0,30"/>
 
-                <TextBlock Text="Hasło:" Margin="0,15,0,5"/>
-                <PasswordBox x:Name="txtHaslo" Height="30" Padding="5"/>
+                <!-- Pole login -->
+                <TextBlock Text="Login" 
+                           Foreground="#555555"
+                           Margin="0,0,0,5"/>
+                <TextBox x:Name="txtLogin" 
+                         Height="40" 
+                         Padding="10,5"
+                         FontSize="14"
+                         Style="{StaticResource MinimalTextBox}"/>
 
-                <Button x:Name="btnLogin" Content="Zaloguj się" 
-                        Width="174" Height="35" Margin="0,30,0,10"
-                        HorizontalAlignment="Center" 
-                        Background="#FFC791D2" Foreground="White"
-                        Click="btnLogin_Click"
-                        Style="{StaticResource MinimalPrimaryButton}"/>
+                <!-- Pole hasło -->
+                <TextBlock Text="Hasło" 
+                           Foreground="#555555"
+                           Margin="0,15,0,5"/>
+                <PasswordBox x:Name="txtHaslo" 
+                             Height="40" 
+                             Padding="10,5"
+                             FontSize="14"
+                             Style="{StaticResource MinimalPasswordBox}"/>
 
-                <TextBlock Text="Lub" TextAlignment="Center" Margin="0,0"/>
+                <!-- Przycisk logowania -->
+                <Button x:Name="btnLogin" 
+                        Content="Zaloguj się" 
+                        Height="45" 
+                        Margin="0,30,0,15"
+                        Style="{StaticResource PrimaryButtonStyle}" Click="btnLogin_Click"/>
 
+                <!-- Separator -->
+                <Border Height="1" 
+                        Background="#EEEEEE" 
+                        Margin="0,10"/>
+
+                <!-- Przycisk rejestracji -->
                 <Button x:Name="btnRejestracja" 
-                        Content="Nie masz konta? Zarejestruj się" 
-                         Width="174" Height="40" Margin="0,5,0,10"
- HorizontalAlignment="Center" 
- Background="#FFC791D2" Foreground="White"
- Click="btnRejestracja_Click" Style="{StaticResource MinimalPrimaryButton}"/>
+                        Content="Załóż nowe konto" 
+                        Height="40"
+                        Style="{StaticResource SecondaryButtonStyle}" Click="btnRejestracja_Click"/>
             </StackPanel>
+        </Border>
+        <Border x:Name="SnackbarContainer"
+            Style="{StaticResource GlobalSnackbarStyle}"
+            Visibility="Collapsed">
+            <TextBlock x:Name="SnackbarMessage" 
+                   Style="{StaticResource GlobalSnackbarMessageStyle}"/>
         </Border>
     </Grid>
 
     <Page.Resources>
+        <!-- LinkButton (jeśli potrzebujesz) -->
         <Style x:Key="LinkButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Foreground" Value="#0066cc"/>
+            <Setter Property="Foreground" Value="#FFFE3C72"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <TextBlock Text="{TemplateBinding Content}" 
-                                   TextDecorations="Underline"
-                                   Padding="5"/>
+                               TextDecorations="Underline"
+                               Padding="5"/>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="#004499"/>
+                    <Setter Property="Foreground" Value="#FFC92A5D"/>
                 </Trigger>
             </Style.Triggers>
         </Style>

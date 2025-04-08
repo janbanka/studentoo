@@ -5,45 +5,154 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:studentoo"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="Rejestracja1">
+      Title="Rejestracja"
+      Background="#FFF5F5F5">
+    <Page.Resources>
+        <!-- Styl dla RadioButton -->
+        <Style x:Key="MinimalRadioButton" TargetType="RadioButton">
+            <Setter Property="Foreground" Value="#555555"/>
+            <Setter Property="Margin" Value="0,0,15,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Ellipse x:Name="outerEllipse"
+                         Width="16" 
+                         Height="16"
+                         Stroke="#FFFE3C72"
+                         StrokeThickness="1"
+                         Fill="White"
+                         Margin="0,0,5,0"/>
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="outerEllipse" Property="Fill" Value="#FFFE3C72"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="outerEllipse" Property="Stroke" Value="#FFE2336B"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-    <Grid Background="#FFF5C4FF">
-        <Border Background="White" CornerRadius="12" Padding="30"
-                BorderBrush="#ccc" BorderThickness="1" VerticalAlignment="Center" HorizontalAlignment="Center" Height="492">
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="300" Margin="0,0,0,-12">
-                
-                <TextBlock Text="Rejestracja" FontSize="24" FontWeight="Bold" TextAlignment="Center" Margin="0,0,0,20" />
+        <!-- Styl dla DatePicker -->
+        <Style x:Key="MinimalDatePicker" TargetType="DatePicker">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Background" Value="#FAFAFA"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DatePicker">
+                        <Border Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="4">
+                            <Grid>
+                                <DatePickerTextBox x:Name="PART_TextBox"
+                                      Foreground="{TemplateBinding Foreground}"
+                                      Padding="10,5"/>
+                                <Button x:Name="PART_Button"
+                            Content="📅"
+                            FontSize="14"
+                            Width="30"
+                            HorizontalAlignment="Right"
+                            Style="{StaticResource MinimalIconButton}"/>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <!-- Kontener formularza -->
+        <Border Background="White" 
+                CornerRadius="12" 
+                Padding="40"
+                BorderBrush="#E0E0E0" 
+                BorderThickness="1"
+                VerticalAlignment="Center" 
+                HorizontalAlignment="Center"
+                Width="400"
+                Effect="{StaticResource ShadowEffect}">
 
-                <TextBlock Text="Imię:" />
-                <TextBox x:Name="txtImie" />
+            <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                          HorizontalScrollBarVisibility="Disabled"
+                          MaxHeight="600" Height="637">
+                <StackPanel Orientation="Vertical" 
+                           Width="300">
 
-                <TextBlock Text="Nazwisko:" />
-                <TextBox x:Name="txtNazwisko" />
-                <TextBlock Text="Płeć:" Margin="0,5,0,0"/>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,5,0,10">
-                    <RadioButton x:Name="rbKobieta" Content="Kobieta" GroupName="Plec" Margin="0,0,15,0" Foreground="#555"/>
-                    <RadioButton x:Name="rbMezczyzna" Content="Mężczyzna" GroupName="Plec" Foreground="#555"/>
+                    <!-- Nagłówek -->
+                    <TextBlock Text="Rejestracja" 
+                               FontSize="24" 
+                               FontWeight="Bold"
+                               Foreground="#FFFE3C72"
+                               TextAlignment="Center" 
+                               Margin="0,0,0,20"/>
+
+                    <!-- Pola formularza -->
+                    <TextBlock Text="Imię" Foreground="#555555"/>
+                    <TextBox x:Name="txtImie" Style="{StaticResource MinimalTextBox}" Height="31"/>
+
+                    <TextBlock Text="Nazwisko" Foreground="#555555" Margin="0,10,0,0"/>
+                    <TextBox x:Name="txtNazwisko" Style="{StaticResource MinimalTextBox}" Height="30"/>
+
+                    <TextBlock Text="Płeć" Foreground="#555555" Margin="0,10,0,0"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,10">
+                        <RadioButton x:Name="rbKobieta" 
+                                    Content="Kobieta" 
+                                    GroupName="Plec" 
+                                    Margin="0,0,15,0"
+                                    Style="{StaticResource MinimalRadioButton}"/>
+                        <RadioButton x:Name="rbMezczyzna" 
+                                    Content="Mężczyzna" 
+                                    GroupName="Plec"
+                                    Style="{StaticResource MinimalRadioButton}"/>
+                    </StackPanel>
+
+                    <TextBlock Text="E-mail" Foreground="#555555" Margin="0,10,0,0"/>
+                    <TextBox x:Name="txtEmail" Style="{StaticResource MinimalTextBox}" Height="32"/>
+
+                    <TextBlock Text="Login" Foreground="#555555" Margin="0,10,0,0"/>
+                    <TextBox x:Name="txtLogin" Style="{StaticResource MinimalTextBox}" Height="32"/>
+
+                    <TextBlock Text="Hasło" Foreground="#555555" Margin="0,10,0,0"/>
+                    <PasswordBox x:Name="txtHaslo" Style="{StaticResource MinimalPasswordBox}" Height="31"/>
+
+                    <TextBlock Text="Powtórz hasło" Foreground="#555555" Margin="0,10,0,0"/>
+                    <PasswordBox x:Name="txtPowHaslo" Style="{StaticResource MinimalPasswordBox}" Height="30"/>
+
+                    <TextBlock Text="Data urodzenia" Foreground="#555555" Margin="0,10,0,0"/>
+                    <DatePicker x:Name="dtpDataUro" 
+                        SelectedDateFormat="Short"
+                        Style="{StaticResource MinimalDatePicker}"
+                        />
+
+                    <!-- Przyciski -->
+                    <Button x:Name="btnRejestracja" 
+                            Content="Zarejestruj się" 
+                            Margin="0,25,0,10"
+                            Style="{StaticResource PrimaryButtonStyle}" Height="30" Click="btnRejestracja_Click"/>
+
+                    <Button x:Name="btnBack" 
+                            Content="Powrót do logowania" 
+                            Style="{StaticResource SecondaryButtonStyle}" Height="30" Click="btnBack_Click"/>
                 </StackPanel>
-                <TextBlock Text="E-mail:" />
-                <TextBox x:Name="txtEmail" />
-
-                <TextBlock Text="Login:" />
-                <TextBox x:Name="txtLogin" />
-
-                <TextBlock Text="Hasło:" />
-                <PasswordBox x:Name="txtHaslo" />
-
-                <TextBlock Text="Powtórz hasło:" />
-                <PasswordBox x:Name="txtPowHaslo" />
-
-                <TextBlock Text="Data urodzenia:" />
-                <TextBox x:Name="txtDataUro" />
-
-                <Button x:Name="btnRejestracja" Content="Zarejestruj się" Width="162" Height="35" Margin="0,20,0,0" HorizontalAlignment="Center" Background="#FFC791D2" Foreground="White" Click="btnRejestracja_Click" Style="{StaticResource MinimalPrimaryButton}"/>
-                <Button x:Name="btnBack" Content="← Powrót do logowania" Width="162" Height="35" Margin="0,5,0,20" 
-                        HorizontalAlignment="Center" Background="#FFC791D2" Foreground="White" Click="btnBack_Click" Style="{StaticResource MinimalPrimaryButton}"/>
-            </StackPanel>
+            </ScrollViewer>
+        </Border>
+        <Border x:Name="SnackbarContainer"
+            Style="{StaticResource GlobalSnackbarStyle}"
+            Visibility="Collapsed">
+            <TextBlock x:Name="SnackbarMessage" 
+                   Style="{StaticResource GlobalSnackbarMessageStyle}"/>
         </Border>
     </Grid>
+
+    
 </Page>

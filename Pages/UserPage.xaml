@@ -191,15 +191,26 @@
         <!-- Dolny pasek z przyciskami akcji -->
         <Border Background="White" Height="80" VerticalAlignment="Bottom">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-               
-                <Button x:Name="btnEdit" Content="✏️" FontSize="24" 
-                        Style="{StaticResource MinimalIconButton}"
-                        Foreground="#2196F3" Click="btnEdit_Click"/>
-                <Button x:Name="btnSave" Content="💾" FontSize="24" 
+
+                <Button x:Name="btnEdit"  FontSize="24" 
+                        Style="{StaticResource ImageIconButton}"
+                        Foreground="#2196F3" Click="btnEdit_Click">
+                     <Image Source="/Icons/editing.png" Height="30" Width="30" Stretch="Uniform"/>
+                </Button>
+                
+                <Button x:Name="btnSave"  FontSize="24" 
                         Style="{StaticResource MinimalIconButton}"
                         Foreground="#FF9800"  
-                        Visibility="Collapsed" Click="btnSave_Click"/>
+                        Visibility="Collapsed" Click="btnSave_Click">
+                    <Image Source="/Icons/diskette.png" Height="30" Width="30" Stretch="Uniform"/>
+                </Button>
             </StackPanel>
+        </Border>
+        <Border x:Name="SnackbarContainer"
+            Style="{StaticResource GlobalSnackbarStyle}"
+            Visibility="Collapsed">
+            <TextBlock x:Name="SnackbarMessage" 
+                   Style="{StaticResource GlobalSnackbarMessageStyle}"/>
         </Border>
     </Grid>
 </Page>

@@ -1,7 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Animation;
 using System.Windows.Navigation;
+using System.Windows.Threading;
 
 namespace studentoo
 {
@@ -12,6 +14,7 @@ namespace studentoo
         public MainWindow()
         {
             InitializeComponent();
+            
             App.MainF = this.MainFrame;
             LoadHomePage();
             UpdateLoginStateUI();
@@ -38,12 +41,32 @@ namespace studentoo
           
             MainFrame.Navigate(new HomePage());
         }
+        private DispatcherTimer snackbarTimer;
 
+        public void ShowSnackbar(string message, int duration = 3000)
+        {
+            SnackbarMessage.Text = message;
+            SnackbarContainer.Visibility = Visibility.Visible;
+
+            var opacityAnimation = new DoubleAnimation(1, TimeSpan.FromMilliseconds(300));
+            SnackbarContainer.BeginAnimation(OpacityProperty, opacityAnimation);
+
+            snackbarTimer?.Stop();
+            snackbarTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(duration) };
+            snackbarTimer.Tick += (sender, args) =>
+            {
+                var hideAnimation = new DoubleAnimation(0, TimeSpan.FromMilliseconds(500));
+                hideAnimation.Completed += (s, e) => SnackbarContainer.Visibility = Visibility.Collapsed;
+                SnackbarContainer.BeginAnimation(OpacityProperty, hideAnimation);
+                snackbarTimer.Stop();
+            };
+            snackbarTimer.Start();
+        }
         private void btnProfile_Click(object sender, RoutedEventArgs e)
         {
             if (App.LoggedInUser == null)
             {
-                MessageBox.Show("Musisz się zalogować.");
+                ShowSnackbar("Musisz się zalogować.");
                 return;
             }
             if(MainFrame.Content is not UserPage)
@@ -59,7 +82,7 @@ namespace studentoo
         {
             if (App.LoggedInUser == null)
             {
-                MessageBox.Show("Musisz się zalogować.");
+               ShowSnackbar("Musisz się zalogować.");
                 return;
             }
            // if (MainFrame.Content is not MessagesPage)
@@ -70,7 +93,7 @@ namespace studentoo
         {
             if (App.LoggedInUser == null)
             {
-                MessageBox.Show("Musisz się zalogować.");
+                ShowSnackbar("Musisz się zalogować.");
                 return;
             }
             if (MainFrame.Content is HomePage homePage)
@@ -83,7 +106,7 @@ namespace studentoo
         {
             if (App.LoggedInUser == null)
             {
-                MessageBox.Show("Musisz się zalogować.");
+                ShowSnackbar("Musisz się zalogować.");
                 return;
             }
             if (MainFrame.Content is HomePage homePage)

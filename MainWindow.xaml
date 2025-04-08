@@ -5,78 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:studentoo"
         mc:Ignorable="d"
-        Title="Studentoo" Height="800" Width="500"
+        Title="Studentoo" Height="942" Width="500"
         WindowStartupLocation="CenterScreen"
-        Background="#FFF5F5F5" 
-        >
-        
-    <Grid>
-        <!-- Górny pasek nawigacyjny -->
-        <Border Background="#FFFE3C72" Height="60" VerticalAlignment="Top">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <!-- Lewa przestrzeń -->
-                    <ColumnDefinition Width="Auto" />
-                    <!-- Środkowe przyciski -->
-                    <ColumnDefinition Width="*" />
-                    <!-- Prawa przestrzeń -->
-                </Grid.ColumnDefinitions>
-
-                <!-- Przyciski nawigacyjne (środek) -->
-                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
-                    <Button x:Name="btnProfile" FontSize="20" Click="btnProfile_Click" Style="{StaticResource MinimalIconButton}">
-                        <Image Source="Icons/user.png" Width="24" Height="24" Stretch="Uniform"/>
-                    </Button>
-                    <Button x:Name="btnHome" FontSize="20" Margin="40,0" Click="btnHome_Click" Style="{StaticResource MinimalIconButton}">
-                        <Image Source="Icons/home.png" Width="24" Height="24" Stretch="Uniform"/>
-                    </Button>
-                    <Button x:Name="btnMessages" FontSize="20" Click="btnMessages_Click" Style="{StaticResource MinimalIconButton}">
-                        <Image Source="/Icons/message.png" Width="24" Height="24" Stretch="Uniform"/>
-                    </Button>
-                </StackPanel>
-
-                <!-- Wyloguj się (prawa strona) -->
-
-                <Button x:Name="btnLogout"
-                    Width="32" Height="32"
-                    ToolTip="Wyloguj się"
-                    HorizontalAlignment="Right" VerticalAlignment="Center"
-                    Margin="0,0,10,0"
-                    Grid.Column="2"
-                    Click="btnLogout_Click"
-                    Style="{StaticResource ImageIconButton}">
-
-                    <Image Source="Icons/logout.png" Width="24" Height="24" Stretch="Uniform"/>
-                </Button>
-                <Button x:Name="btnLogin"
-                    Width="32" Height="32"
-                    ToolTip="Wyloguj się"
-                    HorizontalAlignment="Right" VerticalAlignment="Center"
-                    Margin="0,0,10,0"
-                    Grid.Column="2"
-                    Click="btnLogin_Click"
-                    Style="{StaticResource ImageIconButton}">
-
-                    <Image Source="Icons/logout.png" Width="24" Height="24" Stretch="Uniform"/>
-                </Button>
-            </Grid>
-        </Border>
-        <!-- Główna zawartość -->
-        <Frame x:Name="MainFrame" Margin="0,60,0,70" NavigationUIVisibility="Hidden"/>
-
-        <!-- Dolny pasek akcji -->
-        <Border x:Name="brdrLike" Background="White" Height="70" VerticalAlignment="Bottom">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Button x:Name="btnDislike" 
-                        Content="✖" FontSize="24" Foreground="#FF6B6B6B" Click="btnDislike_Click" Style="{StaticResource MinimalIconButton}"/>
-                <Button x:Name="btnSuperLike"  
-                        Content="⭐" FontSize="24" Foreground="#2196F3" Margin="30,0" Width="37" Style="{StaticResource MinimalIconButton}"/>
-                <Button x:Name="btnLike"
-                        Content="❤" FontSize="24" Foreground="#FFFE3C72" Click="btnLike_Click" Style="{StaticResource MinimalIconButton}"/>
-            </StackPanel>
-        </Border>
-    </Grid>
+        Background="#FFF5F5F5">
 
     <Window.Resources>
         <!-- Style przycisków -->
@@ -108,5 +39,114 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <!-- Styl dla Snackbar'a -->
+        <Style x:Key="SnackbarStyle" TargetType="Border">
+            <Setter Property="Background" Value="#FF323232"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="15"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Margin" Value="0,0,20,20"/>
+            <Setter Property="Opacity" Value="0"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsVisible}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                 From="0" To="1" Duration="0:0:0.3"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                 From="1" To="0" Duration="0:0:0.5"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="196*"/>
+            <RowDefinition Height="28*"/>
+            <RowDefinition Height="5*"/>
+        </Grid.RowDefinitions>
+        <!-- Górny pasek nawigacyjny -->
+        <Border Background="#FFFE3C72" Height="60" VerticalAlignment="Top">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Przyciski nawigacyjne -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button x:Name="btnProfile" FontSize="20" Click="btnProfile_Click" Style="{StaticResource MinimalIconButton}">
+                        <Image Source="Icons/user.png" Width="24" Height="24" Stretch="Uniform"/>
+                    </Button>
+                    <Button x:Name="btnHome" FontSize="20" Margin="40,0" Click="btnHome_Click" Style="{StaticResource MinimalIconButton}">
+                        <Image Source="Icons/home.png" Width="24" Height="24" Stretch="Uniform"/>
+                    </Button>
+                    <Button x:Name="btnMessages" FontSize="20" Click="btnMessages_Click" Style="{StaticResource MinimalIconButton}">
+                        <Image Source="/Icons/message.png" Width="24" Height="24" Stretch="Uniform"/>
+                    </Button>
+                </StackPanel>
+
+                <!-- Przyciski logowania/wylogowania -->
+                <Button x:Name="btnLogout"
+                        Width="32" Height="32"
+                        ToolTip="Wyloguj się"
+                        HorizontalAlignment="Right" VerticalAlignment="Center"
+                        Margin="0,0,10,0"
+                        Grid.Column="2"
+                        Click="btnLogout_Click"
+                        Style="{StaticResource ImageIconButton}">
+                    <Image Source="Icons/logout.png" Width="24" Height="24" Stretch="Uniform"/>
+                </Button>
+                <Button x:Name="btnLogin"
+         Width="32" Height="32"
+         ToolTip="Wyloguj się"
+         HorizontalAlignment="Right" VerticalAlignment="Center"
+         Margin="0,0,10,0"
+         Grid.Column="2"
+         Click="btnLogin_Click"
+         Style="{StaticResource ImageIconButton}">
+                    <Image Source="Icons/logout.png" Width="24" Height="24" Stretch="Uniform"/>
+                </Button>
+            </Grid>
+        </Border>
+
+        <!-- Główna zawartość -->
+        <Frame x:Name="MainFrame" Margin="0,60,0,50" NavigationUIVisibility="Hidden" Grid.RowSpan="2"/>
+
+        <!-- Dolny pasek akcji -->
+        <Border x:Name="brdrLike" Background="White" Height="70" VerticalAlignment="Top" Margin="0,52,0,0" Grid.RowSpan="2" Grid.Row="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button x:Name="btnDislike" 
+                        Content="✖" FontSize="24" Foreground="#FF6B6B6B" Click="btnDislike_Click" Style="{StaticResource MinimalIconButton}"/>
+                <Button x:Name="btnSuperLike"  
+                        Content="⭐" FontSize="24" Foreground="#2196F3" Margin="30,0" Width="37" Style="{StaticResource MinimalIconButton}"/>
+                <Button x:Name="btnLike"
+                        Content="❤" FontSize="24" Foreground="#FFFE3C72" Click="btnLike_Click" Style="{StaticResource MinimalIconButton}"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Snackbar - wyświetla się nad dolnym paskiem -->
+        <Border x:Name="SnackbarContainer"
+                Style="{StaticResource SnackbarStyle}"
+                Visibility="Collapsed" Margin="0,0,20,0" Grid.Row="1">
+            <TextBlock x:Name="SnackbarMessage" 
+                       Foreground="White"
+                       TextWrapping="Wrap"
+                       FontSize="14"/>
+        </Border>
+    </Grid>
 </Window>
