@@ -14,7 +14,16 @@ namespace studentoo
         public MainWindow()
         {
             InitializeComponent();
-            
+
+
+            var screenWidth = SystemParameters.PrimaryScreenWidth;
+            var screenHeight = SystemParameters.PrimaryScreenHeight;
+
+            //this.Width = screenWidth * 0.8;
+            this.Height = screenHeight * 0.9;
+
+           // this.Left = (screenWidth - this.Width) / 2;
+            this.Top = (screenHeight - this.Height) / 2;
             App.MainF = this.MainFrame;
             LoadHomePage();
             UpdateLoginStateUI();
