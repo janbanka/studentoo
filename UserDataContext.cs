@@ -16,6 +16,7 @@ namespace studentoo
     
     public class UserDataContext : DbContext
     {
+        public DbSet<paired> paireds {  get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<photos> photos { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

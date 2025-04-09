@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer;
 
 namespace studentoo
 {
@@ -62,20 +63,20 @@ namespace studentoo
             mainWindow.MainFrame.Navigate(new UserPage(userId));
         }
 
-        //private void SaveMatchAction(int targetUserId, string actionType)
-        //{
-        //    using (var db = new UserDataContext())
-        //    {
-        //        var match = new Match
-        //        {
-        //            UserId = loggedInUserId,
-        //            TargetUserId = targetUserId,
-        //            Action = actionType,
-        //            Timestamp = DateTime.Now
-        //        };
-        //        db.Matches.Add(match);
-        //        db.SaveChanges();
-        //    }
-        //}
+        private void SaveMatchAction(int targetUserId, string actionType)
+        {
+            using (var db = new UserDataContext())
+            {
+                var match = new paired
+                {
+                    userID1 = loggedInUserId,
+                    userID2 = targetUserId,
+                    Action = actionType,
+                    timestamp = DateTime.Now
+                };
+                db.paireds.Add(match);
+                db.SaveChanges();
+            }
+        }
     }
 }

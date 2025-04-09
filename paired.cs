@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 namespace studentoo
 {
-    class Pairs
+    public class paired
     {
         [Key]
         public int PairID { get; set; }
         public int userID1 { get; set; }
         public int userID2 { get; set; }
+        public string Action {  get; set; }
+        public DateTime timestamp { get; set; }
+
     }
 }
