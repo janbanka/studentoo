@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <None Remove="assets\defaultImage.jpg" />
+    <None Remove="assets\sad-face-in-rounded-square.png" />
     <None Remove="Icons\back-arrow.png" />
     <None Remove="Icons\diskette.png" />
     <None Remove="Icons\editing.png" />
@@ -41,6 +42,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="assets\sad-face-in-rounded-square.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Icons\back-arrow.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

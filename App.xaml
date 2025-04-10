@@ -296,6 +296,20 @@
                 <Setter Property="TextWrapping" Value="Wrap"/>
                 <Setter Property="FontSize" Value="14"/>
             </Style>
+            
+            <Storyboard x:Key="PulseAnimation">
+                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                     From="0.5" To="1" Duration="0:0:1"
+                     AutoReverse="True" RepeatBehavior="3x"/>
+                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX"
+                     Storyboard.TargetName="NoMoreUsersPanel"
+                     From="0.95" To="1.05" Duration="0:0:0.5"
+                     AutoReverse="True" RepeatBehavior="3x"/>
+                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY"
+                     Storyboard.TargetName="NoMoreUsersPanel"
+                     From="0.95" To="1.05" Duration="0:0:0.5"
+                     AutoReverse="True" RepeatBehavior="3x"/>
+            </Storyboard>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

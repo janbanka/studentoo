@@ -7,6 +7,8 @@ using System.Windows;
 using System.Windows.Controls;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
+using System.Windows.Media.Animation;
+using System.Windows.Media;
 namespace studentoo
 {
     public partial class HomePage : Page
@@ -37,12 +39,19 @@ namespace studentoo
             {
                 using (var db = new UserDataContext())
                 {
+                    var ratedUserIds = await db.paired
+                        .Where(p => p.user_id == loggedInUserId)
+                        .Select(p => p.user_id2)
+                        .ToListAsync();
+
                     var usersWithPhotos = await db.Users
                         .Where(u => u.id != loggedInUserId)
+                        .Where(u => !ratedUserIds.Contains(u.id)) 
                         .Where(u => db.photos.Any(p => p.user_id == u.id && p.photo_data != null))
                         .OrderByDescending(u => u.created_at)
                         .ToListAsync();
 
+                    // Reszta metody pozostaje bez zmian...
                     var userIds = usersWithPhotos.Select(u => u.id).ToList();
                     var userPhotos = await db.photos
                         .Where(p => userIds.Contains(p.user_id) && p.photo_data != null)
@@ -62,7 +71,6 @@ namespace studentoo
                     }
 
                     potentialMatches = usersWithPhotos;
-                  
                     UpdateUI();
                 }
             }
@@ -93,20 +101,8 @@ namespace studentoo
             if (currentIndex >= potentialMatches.Count) return;
 
             var likedUser = potentialMatches[currentIndex];
-
-            if (!HasExistingLike(loggedInUserId, likedUser.id))
-            {
-                SaveMatchAction(likedUser.id, true);
-                CheckForMatch(likedUser.id);
-            }
-            else
-            {
-                Dispatcher.Invoke(() =>
-                {
-                    SnackbarService.Show("Już polubiłeś tę osobę!");
-                });
-            }
-
+            SaveMatchAction(likedUser.id, true);
+            CheckForMatch(likedUser.id);
             ShowNextUser();
         }
 
@@ -118,16 +114,7 @@ namespace studentoo
             SaveMatchAction(dislikedUser.id, false);
             ShowNextUser();
         }
-        private bool HasExistingLike(int userId1, int userId2)
-        {
-            using (var db = new UserDataContext())
-            {
-                return db.paired.Any(m =>
-                    m.user_id == userId1 &&
-                    m.user_id2 == userId2 &&
-                    m.is_like == true);
-            }
-        }
+        
 
 
         private void CheckForMatch(int targetUserId)
@@ -168,7 +155,18 @@ namespace studentoo
                 return db.Users.FirstOrDefault(u => u.id == userId)?.name ?? "użytkownikiem";
             }
         }
+        private async void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            currentIndex = 0;
+            await LoadPotentialMatches();
 
+            if (potentialMatches.Count == 0)
+            {
+                // Możesz dodać dodatkową animację
+                Storyboard animation = (Storyboard)FindResource("PulseAnimation");
+                animation.Begin(NoMoreUsersPanel);
+            }
+        }
         private void ShowNextUser()
         {
             currentIndex++;
@@ -176,27 +174,31 @@ namespace studentoo
 
             if (currentIndex >= potentialMatches.Count)
             {
-                Dispatcher.Invoke(() =>
+                // Make sure the panel is visible before animating
+                NoMoreUsersPanel.Visibility = Visibility.Visible;
+
+                // Start the animation
+                var animation = (Storyboard)this.Resources["PulseAnimation"];
+                if (animation != null)
                 {
-                    SnackbarService.Show("To już wszyscy użytkownicy w Twojej okolicy!");
-                });
+                    animation.Begin(NoMoreUsersPanel);
+                }
             }
         }
 
         private void UpdateUI()
         {
-            if (UsersCardsContainer != null)
+            if (potentialMatches == null || currentIndex >= potentialMatches.Count)
             {
-                UsersCardsContainer.ItemsSource = potentialMatches
-                    .Skip(currentIndex)
-                    .Take(1) // tylko jeden użytkownik na raz
-                    .ToList();
-
-                UsersCardsContainer.Visibility =
-                    potentialMatches.Count > 0 && currentIndex < potentialMatches.Count
-                    ? Visibility.Visible
-                    : Visibility.Collapsed;
+                UsersCardsContainer.Visibility = Visibility.Collapsed;
+                NoMoreUsersPanel.Visibility = Visibility.Visible;
+                return;
             }
+
+            var currentUser = potentialMatches[currentIndex];
+            UsersCardsContainer.ItemsSource = new List<User> { currentUser };
+            UsersCardsContainer.Visibility = Visibility.Visible;
+            NoMoreUsersPanel.Visibility = Visibility.Collapsed;
         }
 
 
@@ -204,15 +206,18 @@ namespace studentoo
         {
             using (var db = new UserDataContext())
             {
-                var match = new paired
+                if (!db.paired.Any(p => p.user_id == loggedInUserId && p.user_id2 == targetUserId))
                 {
-                    user_id = loggedInUserId,
-                    user_id2 = targetUserId,
-                    is_like = isLike,
-                    timestamp = DateTime.Now
-                };
-                db.paired.Add(match);
-                db.SaveChanges();
+                    var match = new paired
+                    {
+                        user_id = loggedInUserId,
+                        user_id2 = targetUserId,
+                        is_like = isLike,
+                        timestamp = DateTime.Now
+                    };
+                    db.paired.Add(match);
+                    db.SaveChanges();
+                }
             }
         }
 
