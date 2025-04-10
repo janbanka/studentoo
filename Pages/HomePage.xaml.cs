@@ -37,21 +37,18 @@ namespace studentoo
             {
                 using (var db = new UserDataContext())
                 {
-                    // Pobierz tylko użytkowników którzy mają zdjęciaf
                     var usersWithPhotos = await db.Users
                         .Where(u => u.id != loggedInUserId)
                         .Where(u => db.photos.Any(p => p.user_id == u.id && p.photo_data != null))
                         .OrderByDescending(u => u.created_at)
                         .ToListAsync();
 
-                    // Pobierz zdjęcia tylko dla tych użytkowników
                     var userIds = usersWithPhotos.Select(u => u.id).ToList();
                     var userPhotos = await db.photos
                         .Where(p => userIds.Contains(p.user_id) && p.photo_data != null)
                         .GroupBy(p => p.user_id)
                         .ToDictionaryAsync(g => g.Key, g => g.ToList());
 
-                    // Przypisz zdjęcia
                     foreach (var user in usersWithPhotos)
                     {
                         if (userPhotos.TryGetValue(user.id, out var photos))
@@ -72,7 +69,6 @@ namespace studentoo
             catch (Exception ex)
             {
                 Debug.WriteLine($"Błąd ładowania użytkowników: {ex}");
-                // Obsłuż błąd
             }
         }
         public static bool IsImageDataValid(byte[] data)
@@ -80,7 +76,6 @@ namespace studentoo
             if (data == null || data.Length < 8)
                 return false;
 
-            // Sprawdź nagłówki typowych formatów obrazków
             var headers = new Dictionary<byte[], string>
     {
         { new byte[] { 0xFF, 0xD8, 0xFF }, "jpg" }, // JPEG
@@ -149,7 +144,6 @@ namespace studentoo
         {
             using (var db = new UserDataContext())
             {
-                // Sprawdź czy druga osoba też Cię polubiła
                 bool isMatch = db.paired.Any(m =>
                     m.user_id == targetUserId &&
                     m.user_id2 == loggedInUserId &&
@@ -157,7 +151,6 @@ namespace studentoo
 
                 if (isMatch)
                 {
-                    // Zapisz match w bazie
                     var match = new paired
                     {
                         user_id = loggedInUserId,
@@ -167,7 +160,6 @@ namespace studentoo
                     db.paired.Add(match);
                     db.SaveChanges();
 
-                    // Pokaż powiadomienie
                     Dispatcher.Invoke(() =>
                     {
                         SnackbarService.Show($"Nowy match! Z {GetUserName(targetUserId)}");
