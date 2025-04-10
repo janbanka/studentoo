@@ -1,0 +1,99 @@
+﻿<Page x:Class="studentoo.Pages.ChatHubPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Twoje matchy" 
+      Height="Auto" 
+      Width="Auto"
+      Background="#FFF5F5F5">
+
+    <Grid Background="#FFF5F5F5">
+        <!-- Komunikat gdy brak matchy -->
+        <TextBlock x:Name="NoMatchesText" 
+                   Text="Nie masz jeszcze żadnych matchy. Zacznij rozmawiać z innymi użytkownikami!"
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center"
+                   TextAlignment="Center"
+                   FontSize="16"
+                   Foreground="#666666"
+                   Visibility="Collapsed"/>
+
+        <!-- ListView z poprawionymi właściwościami -->
+        <ListView x:Name="ConversationsListView"
+                  Margin="10"
+                  SelectionChanged="ConversationSelected"
+                  Background="White"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  BorderThickness="0">
+
+            <!-- Styl dla itemów -->
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Margin" Value="0,0,0,10"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
+                                <ContentPresenter />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border Background="White" 
+                            CornerRadius="10" 
+                            Padding="10" 
+                            Margin="0,5"
+                            BorderBrush="#EEEEEE"
+                            BorderThickness="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Zdjęcie z fallbackiem -->
+                            <Border Grid.Column="0" 
+                                    Width="60" 
+                                    Height="60"
+                                    CornerRadius="30"
+                                    Background="White">
+                                <Image Source="{Binding Partner.PhotoImage, FallbackValue={StaticResource DefaultImage}}" 
+                                    Stretch="UniformToFill">
+                                    <Image.Clip>
+                                        <EllipseGeometry RadiusX="30" RadiusY="30" Center="30,30"/>
+                                    </Image.Clip>
+                                </Image>
+                            </Border>
+
+                            <!-- Informacje -->
+                            <StackPanel Grid.Column="1" 
+                                        Margin="10,0"
+                                        VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Partner.name, FallbackValue='[Błąd nazwy]'}" 
+                                           FontWeight="Bold" 
+                                           FontSize="16"
+                                           Foreground="#333333"/>
+                                <TextBlock Text="{Binding LastMessagePreview, FallbackValue='[Brak wiadomości]'}" 
+                                           Foreground="#666666"
+                                           TextTrimming="CharacterEllipsis"
+                                           MaxWidth="200"/>
+                            </StackPanel>
+
+                            <!-- Czas -->
+                            <TextBlock Text="{Binding LastMessageTime, FallbackValue='--:--'}" 
+                                       Grid.Column="2" 
+                                       Foreground="#999999"
+                                       VerticalAlignment="Center"
+                                       FontSize="12"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>

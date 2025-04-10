@@ -96,7 +96,26 @@
                         <Image Source="Icons/home.png" Width="24" Height="24" Stretch="Uniform"/>
                     </Button>
                     <Button x:Name="btnMessages" FontSize="20" Click="btnMessages_Click" Style="{StaticResource MinimalIconButton}">
-                        <Image Source="/Icons/message.png" Width="24" Height="24" Stretch="Uniform"/>
+                        <Grid>
+                            <Image Source="/Icons/message.png" Width="24" Height="24" Stretch="Uniform"/>
+                            <Border x:Name="MessagesBadge"
+                Background="#FFFE3C72"
+                CornerRadius="9"
+                Width="18"
+                Height="18"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="0,-5,0,0"
+                Visibility="Collapsed">
+                                <TextBlock x:Name="MessagesBadgeText"
+                      Text="0"
+                      Foreground="White"
+                      FontSize="10"
+                      FontWeight="Bold"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"/>
+                            </Border>
+                        </Grid>
                     </Button>
                 </StackPanel>
 

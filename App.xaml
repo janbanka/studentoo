@@ -6,6 +6,7 @@
              ShutdownMode="OnLastWindowClose"
 >
     <Application.Resources>
+        
         <ResourceDictionary>
             <!-- Podstawowy styl - neutralny, lekki efekt hover -->
             <Style x:Key="MinimalButton" TargetType="Button">
@@ -41,7 +42,12 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
+            
+            <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
 
+            <!-- Odwrócony konwerter -->
+            <local:InverseBooleanToVisibilityConverter x:Key="InverseBoolToVisibility"/>
+            <!-- Odwrócony konwerter -->
             <!-- Akcentowy przycisk (np. do głównych akcji) -->
             <Style x:Key="MinimalPrimaryButton" BasedOn="{StaticResource MinimalButton}" TargetType="Button">
                 <Setter Property="Background" Value="#1976D2"/>
@@ -56,7 +62,7 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
-
+            <local:IntToVisibilityConverter x:Key="IntToVisibility"/>
             <!-- Przycisk "danger" (np. Wyloguj) -->
             <Style x:Key="MinimalDangerButton" BasedOn="{StaticResource MinimalButton}" TargetType="Button">
                 <Setter Property="Background" Value="#FFEBEE"/>
@@ -104,6 +110,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <BitmapImage x:Key="DefaultImage" UriSource="pack://application:,,,/assets/defaultImage.jpg"/>
             <Style x:Key="ImageIconButton" TargetType="Button" BasedOn="{StaticResource MinimalIconButton}">
                 <Setter Property="Template">
                     <Setter.Value>

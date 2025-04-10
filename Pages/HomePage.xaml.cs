@@ -116,8 +116,20 @@ namespace studentoo
             if (currentIndex >= potentialMatches.Count) return;
 
             var likedUser = potentialMatches[currentIndex];
-            SaveMatchAction(likedUser.id,true);
-            CheckForMatch(likedUser.id);
+
+            if (!HasExistingLike(loggedInUserId, likedUser.id))
+            {
+                SaveMatchAction(likedUser.id, true);
+                CheckForMatch(likedUser.id);
+            }
+            else
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    SnackbarService.Show("Już polubiłeś tę osobę!");
+                });
+            }
+
             ShowNextUser();
         }
 
@@ -129,33 +141,45 @@ namespace studentoo
             SaveMatchAction(dislikedUser.id, false);
             ShowNextUser();
         }
+        private bool HasExistingLike(int userId1, int userId2)
+        {
+            using (var db = new UserDataContext())
+            {
+                return db.paired.Any(m =>
+                    m.user_id == userId1 &&
+                    m.user_id2 == userId2 &&
+                    m.is_like == true);
+            }
+        }
 
-       
 
         private void CheckForMatch(int targetUserId)
         {
             using (var db = new UserDataContext())
             {
-                bool isMatch = db.paired.Any(m =>
-                    m.user_id == targetUserId &&
-                    m.user_id2 == loggedInUserId &&
-                    (m.is_like == true || m.is_like == false));
+                var otherLike = db.paired
+                    .FirstOrDefault(p => p.user_id == targetUserId &&
+                                       p.user_id2 == loggedInUserId &&
+                                       p.is_like == true);
 
-                if (isMatch)
+                if (otherLike != null)
                 {
-                    var match = new paired
-                    {
-                        user_id = loggedInUserId,
-                        user_id2 = targetUserId,
-                        timestamp = DateTime.Now
-                    };
-                    db.paired.Add(match);
-                    db.SaveChanges();
+                    var myLike = db.paired
+                        .FirstOrDefault(p => p.user_id == loggedInUserId &&
+                                           p.user_id2 == targetUserId);
 
-                    Dispatcher.Invoke(() =>
+                    if (myLike != null)
                     {
-                        SnackbarService.Show($"Nowy match! Z {GetUserName(targetUserId)}");
-                    });
+                        myLike.is_matched = true;
+                        otherLike.is_matched = true;
+
+                        db.SaveChanges();
+
+                        Dispatcher.Invoke(() =>
+                        {
+                            SnackbarService.Show($"Nowy match! Z {GetUserName(targetUserId)}");
+                        });
+                    }
                 }
             }
         }

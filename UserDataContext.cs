@@ -19,6 +19,7 @@ namespace studentoo
         public DbSet<paired> paired {  get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<photos> photos { get; set; }
+        public DbSet<messages> messages { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -40,6 +41,13 @@ namespace studentoo
                 entity.Property(e => e.login).HasMaxLength(50);
                 entity.HasIndex(e => e.id).IsUnique();
             });
+            modelBuilder.Entity<User>()
+               .HasMany(u => u.zdj)
+               .WithOne(p => p.User)
+               .HasForeignKey(p => p.user_id);
+            modelBuilder.Entity<photos>()
+                .HasIndex(p => p.user_id);
         }
+       
     }
 }

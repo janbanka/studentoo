@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using studentoo.Pages;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
@@ -87,6 +88,8 @@ namespace studentoo
         {
             LoadHomePage();
         }
+        
+
 
         private void btnMessages_Click(object sender, RoutedEventArgs e)
         {
@@ -95,10 +98,26 @@ namespace studentoo
                ShowSnackbar("Musisz się zalogować.");
                 return;
             }
-           // if (MainFrame.Content is not MessagesPage)
-            // MainFrame.Navigate(new MessagesPage(App.LoggedInUser.id));
+            if (App.LoggedInUser != null)
+            {
+                MainFrame.Navigate(new ChatHubPage(App.LoggedInUser.id));
+            }
         }
-
+        public void UpdateMessagesBadge(int count)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                if (count > 0)
+                {
+                    MessagesBadge.Visibility = Visibility.Visible;
+                    MessagesBadgeText.Text = count.ToString();
+                }
+                else
+                {
+                    MessagesBadge.Visibility = Visibility.Collapsed;
+                }
+            });
+        }
         private void btnLike_Click(object sender, RoutedEventArgs e)
         {
             if (App.LoggedInUser == null)
