@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="assets\defaultImage.jpg" />
     <None Remove="Icons\back-arrow.png" />
     <None Remove="Icons\diskette.png" />
     <None Remove="Icons\editing.png" />
@@ -17,6 +18,12 @@
     <None Remove="Icons\message.png" />
     <None Remove="Icons\right-arrow.png" />
     <None Remove="Icons\user.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="assets\defaultImage.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

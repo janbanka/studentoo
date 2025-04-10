@@ -10,8 +10,8 @@ namespace studentoo
     {
         [Key]
         public int PairID { get; set; }
-        public int userID1 { get; set; }
-        public int userID2 { get; set; }
+        public int user_id { get; set; }
+        public int user_id2 { get; set; }
         public string Action {  get; set; }
         public DateTime timestamp { get; set; }
 

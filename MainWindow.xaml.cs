@@ -25,7 +25,7 @@ namespace studentoo
            // this.Left = (screenWidth - this.Width) / 2;
             this.Top = (screenHeight - this.Height) / 2;
             App.MainF = this.MainFrame;
-            LoadHomePage();
+            
             UpdateLoginStateUI();
         }
 
@@ -36,6 +36,7 @@ namespace studentoo
                 btnLogin.Visibility = Visibility.Visible;
                 btnLogout.Visibility = Visibility.Collapsed;
                 brdrLike.Visibility = Visibility.Collapsed;
+                LoadHomePage();
             }
             else
             {
@@ -107,7 +108,7 @@ namespace studentoo
             }
             if (MainFrame.Content is HomePage homePage)
             {   
-                homePage.LikeCurrentUser();
+                //homePage.LikeCurrentUser();
             }
         }
 

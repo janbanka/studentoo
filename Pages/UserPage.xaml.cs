@@ -162,6 +162,7 @@ namespace studentoo
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
+            if (currentUser.id != App.LoggedInUser.id) { SnackbarService.Show("Nie możesz edytować nie swojego profilu!!!");return; }
             isEditMode = true;
             if (userPhotos.Count > 0)
                 btnDeletePhoto.Visibility = Visibility.Visible;
