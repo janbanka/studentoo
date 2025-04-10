@@ -47,20 +47,20 @@ namespace studentoo.Pages
 
         private void LoadMessages()
         {
-            var messages = _db.messages
-                .Where(m => (m.sender_id == _currentUserId && m.receiver_id == _partnerId) ||
-                           (m.sender_id == _partnerId && m.receiver_id == _currentUserId))
-                .OrderBy(m => m.sent_at)
-                .Select(m => new MessageViewModel
-                {
-                    Content = m.content,
-                    SentAt = m.sent_at,
-                    IsCurrentUser = (m.sender_id == _currentUserId)
-                })
-                .ToList();
+            //var messages = _db.messages
+            //    .Where(m => (m.sender_id == _currentUserId && m.receiver_id == _partnerId) ||
+            //               (m.sender_id == _partnerId && m.receiver_id == _currentUserId))
+            //    .OrderBy(m => m.sent_at)
+            //    .Select(m => new MessageViewModel
+            //    {
+            //        Content = m.content,
+            //        SentAt = m.sent_at,
+            //        IsCurrentUser = (m.sender_id == _currentUserId)
+            //    })
+            //    .ToList();
 
-            MessagesList.ItemsSource = messages;
-            ScrollToBottom();
+            //MessagesList.ItemsSource = messages;
+            //ScrollToBottom();
         }
 
         private void SendButton_Click(object sender, RoutedEventArgs e)
