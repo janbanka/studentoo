@@ -53,14 +53,22 @@ namespace studentoo.Pages
             .AsNoTracking()
             .ToList();
 
-        var viewModels = matches.Select(p => new ConversationViewModel
-        {
-            Partner = p.user_id == currentUserId ? p.User2 : p.User1,
-            // Dla uproszczenia - możesz pokazać informację o dopasowaniu
-            LastMessagePreview = "Wzajemne dopasowanie",
-            LastMessageTime = p.timestamp.ToString("HH:mm") // Zakładając, że masz kolumnę timestamp
-        })
-        .OrderByDescending(c => c.LastMessageTime)
+                var uniquePartners = matches
+                   .Select(p => p.user_id == currentUserId ? p.User2 : p.User1)
+                   .GroupBy(u => u.id)
+                   .Select(g => g.First())
+                   .ToList();
+
+                var viewModels = uniquePartners.Select(partner => new ConversationViewModel
+                {
+                    Partner = partner,
+                    LastMessageTime = matches
+                        .FirstOrDefault(p =>
+                            (p.user_id == currentUserId && p.user_id2 == partner.id) ||
+                            (p.user_id == partner.id && p.user_id2 == currentUserId))
+                        ?.timestamp.ToString("dd.MM.yyyy") ?? "Brak daty"
+                })
+                .OrderByDescending(c => c.LastMessageTime)
         .ToList();
 
         Dispatcher.Invoke(() =>
