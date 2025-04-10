@@ -87,29 +87,6 @@ namespace studentoo
                 header.Key.SequenceEqual(data.Take(header.Key.Length)));
         }
 
-        
-
-        private Button CreateActionButton(string content, string color, RoutedEventHandler handler, string width = "35")
-        {
-            var button = new Button
-            {
-                Content = content,
-                Width = double.Parse(width),
-                Height = 35,
-                Margin = new Thickness(15, 0, 15, 0),
-                Background = new System.Windows.Media.SolidColorBrush(
-                    (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(color)),
-                Foreground = System.Windows.Media.Brushes.White,
-                FontSize = 20,
-                Style = (Style)FindResource("MinimalIconButton"),
-                CommandParameter = content
-            };
-
-            button.Click += handler;
-
-            return button;
-        }
-
 
         public void LikeCurrentUser()
         {
