@@ -108,7 +108,7 @@ namespace studentoo
             }
             if (MainFrame.Content is HomePage homePage)
             {   
-                //homePage.LikeCurrentUser();
+                homePage.LikeCurrentUser();
             }
         }
 
@@ -121,7 +121,7 @@ namespace studentoo
             }
             if (MainFrame.Content is HomePage homePage)
             {
-               // homePage.DislikeCurrentUser();
+               homePage.DislikeCurrentUser();
             }
         }
 

@@ -111,34 +111,26 @@ namespace studentoo
         }
 
 
-        public void LikeCurrentUser(object sender, RoutedEventArgs e)
+        public void LikeCurrentUser()
         {
             if (currentIndex >= potentialMatches.Count) return;
 
             var likedUser = potentialMatches[currentIndex];
-            SaveMatchAction(likedUser.id, "like");
+            SaveMatchAction(likedUser.id,true);
             CheckForMatch(likedUser.id);
             ShowNextUser();
         }
 
-        public void DislikeCurrentUser(object sender, RoutedEventArgs e)
+        public void DislikeCurrentUser()
         {
             if (currentIndex >= potentialMatches.Count) return;
 
             var dislikedUser = potentialMatches[currentIndex];
-            SaveMatchAction(dislikedUser.id, "dislike");
+            SaveMatchAction(dislikedUser.id, false);
             ShowNextUser();
         }
 
-        public void SuperLikeCurrentUser(object sender, RoutedEventArgs e)
-        {
-            if (currentIndex >= potentialMatches.Count) return;
-
-            var superLikedUser = potentialMatches[currentIndex];
-            SaveMatchAction(superLikedUser.id, "superlike");
-            CheckForMatch(superLikedUser.id);
-            ShowNextUser();
-        }
+       
 
         private void CheckForMatch(int targetUserId)
         {
@@ -147,7 +139,7 @@ namespace studentoo
                 bool isMatch = db.paired.Any(m =>
                     m.user_id == targetUserId &&
                     m.user_id2 == loggedInUserId &&
-                    (m.Action == "like" || m.Action == "superlike"));
+                    (m.is_like == true || m.is_like == false));
 
                 if (isMatch)
                 {
@@ -207,7 +199,7 @@ namespace studentoo
         }
 
 
-        private void SaveMatchAction(int targetUserId, string actionType)
+        private void SaveMatchAction(int targetUserId, bool isLike)
         {
             using (var db = new UserDataContext())
             {
@@ -215,7 +207,7 @@ namespace studentoo
                 {
                     user_id = loggedInUserId,
                     user_id2 = targetUserId,
-                    Action = actionType,
+                    is_like = isLike,
                     timestamp = DateTime.Now
                 };
                 db.paired.Add(match);
