@@ -2,16 +2,25 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
-    <Compile Update="HomePage.xaml.cs">
+    <Compile Update="Pages\ChatHubPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="loginPage.xaml.cs">
+    <Compile Update="Pages\ChatPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Rejestracja1.xaml.cs">
+    <Compile Update="Pages\HomePage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UserPage.xaml.cs">
+    <Compile Update="Pages\LandingPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\loginPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\Rejestracja1.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\UserPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

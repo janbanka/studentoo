@@ -9,6 +9,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="assets\defaultImage.jpg" />
+    <None Remove="assets\LandingPage.png" />
+    <None Remove="assets\sad-face-in-rounded-square.png" />
+    <None Remove="Icons\back-arrow.png" />
+    <None Remove="Icons\diskette.png" />
+    <None Remove="Icons\editing.png" />
+    <None Remove="Icons\home.png" />
+    <None Remove="Icons\logout.png" />
+    <None Remove="Icons\message.png" />
+    <None Remove="Icons\right-arrow.png" />
+    <None Remove="Icons\user.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="assets\defaultImage.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.3" />
@@ -20,6 +40,39 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.3" />
     <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="assets\LandingPage.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="assets\sad-face-in-rounded-square.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\back-arrow.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\diskette.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\editing.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\home.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\logout.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\message.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\right-arrow.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\user.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

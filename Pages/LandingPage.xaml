@@ -1,0 +1,106 @@
+﻿<Page x:Class="studentoo.Pages.LandingPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      Title="LandingPage"
+      Background="#fff9f3"
+      FontFamily="Segoe UI">
+
+    <Page.Resources>
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#FFFE3C72"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Margin" Value="0,0,10,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="20"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Opacity" Value="0.8"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Opacity" Value="0.6"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SecondaryButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#FFFE3C72"/>
+            <Setter Property="BorderBrush" Value="#FFFE3C72"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <StackPanel VerticalAlignment="Center" 
+                    HorizontalAlignment="Center"
+                    Width="350"
+                    TextBlock.TextAlignment="Center">
+
+            <!-- Nagłówek -->
+            <TextBlock Text="Witaj w Studentoo👋"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       Foreground="#FF333333"
+                       Margin="0,0,0,20"/>
+
+            <!-- Opis -->
+            <TextBlock Text="Poznawaj innych studentów, dziel się pasjami i buduj relacje!"
+                       FontSize="16"
+                       Foreground="#FF666666"
+                       Margin="0,0,0,20"
+                       TextWrapping="Wrap"/>
+
+            <!-- Obrazek -->
+            <Border Background="
+#fff9f3" 
+                    CornerRadius="10"
+                    Width="250"
+                    Height="150"
+                    Margin="0,0,0,30"
+                    HorizontalAlignment="Center">
+                <Image Source="/assets/LandingPage.png"
+                       Stretch="Uniform"
+                       Margin="-39,-18,-39,-18"/>
+            </Border>
+
+            <!-- Przyciski -->
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Margin="0,0,0,50">
+                <Button Content="Zaloguj się🚀"
+                        Style="{StaticResource PrimaryButton}"
+                        Click="LoginButton_Click"/>
+
+                <Button Content="Zarejestruj się📝"
+                        Style="{StaticResource SecondaryButton}"
+                        Click="RegisterButton_Click"/>
+            </StackPanel>
+
+            <!-- Stopka -->
+            <TextBlock Text="© 2025 Studentoo. Wszelkie prawa zastrzeżone."
+                       FontSize="12"
+                       Foreground="#FF999999"
+                       Margin="0,40,0,0"/>
+        </StackPanel>
+    </Grid>
+</Page>

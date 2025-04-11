@@ -2,10 +2,314 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:studentoo"
-             StartupUri="loginPage.xaml"
+             StartupUri="MainWindow.xaml"
              ShutdownMode="OnLastWindowClose"
 >
     <Application.Resources>
-         
+        
+        <ResourceDictionary>
+            <!-- Podstawowy styl - neutralny, lekki efekt hover -->
+            <Style x:Key="MinimalButton" TargetType="Button">
+                <Setter Property="Background" Value="#FAFAFA"/>
+                <Setter Property="Foreground" Value="#333333"/>
+                <Setter Property="BorderBrush" Value="#DDDDDD"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Padding" Value="12 6"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border 
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="4">
+                                <ContentPresenter 
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#F0F0F0"/>
+                        <Setter Property="Cursor" Value="Hand"/>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" Value="#E0E0E0"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            
+            <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+
+            <!-- Odwrócony konwerter -->
+            <local:InverseBooleanToVisibilityConverter x:Key="InverseBoolToVisibility"/>
+            <!-- Odwrócony konwerter -->
+            <!-- Akcentowy przycisk (np. do głównych akcji) -->
+            <Style x:Key="MinimalPrimaryButton" BasedOn="{StaticResource MinimalButton}" TargetType="Button">
+                <Setter Property="Background" Value="#1976D2"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#1565C0"/>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" Value="#0D47A1"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <local:IntToVisibilityConverter x:Key="IntToVisibility"/>
+            <!-- Przycisk "danger" (np. Wyloguj) -->
+            <Style x:Key="MinimalDangerButton" BasedOn="{StaticResource MinimalButton}" TargetType="Button">
+                <Setter Property="Background" Value="#FFEBEE"/>
+                <Setter Property="Foreground" Value="#D32F2F"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#FFCDD2"/>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" Value="#EF9A9A"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <!-- Przycisk z ikoną (np. dom, wiadomości) -->
+            <Style x:Key="MinimalIconButton" BasedOn="{StaticResource MinimalButton}" TargetType="Button">
+                <Setter Property="Width" Value="40"/>
+                <Setter Property="Height" Value="40"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#F5F5F5"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="ActionButton" TargetType="Button">
+                <Setter Property="Width" Value="60"/>
+                <Setter Property="Height" Value="60"/>
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="BorderBrush" Value="#E0E0E0"/>
+                <Setter Property="BorderThickness" Value="2"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" 
+                        BorderBrush="{TemplateBinding BorderBrush}" 
+                        BorderThickness="{TemplateBinding BorderThickness}" 
+                        CornerRadius="30">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <BitmapImage x:Key="DefaultImage" UriSource="pack://application:,,,/assets/defaultImage.jpg"/>
+            <Style x:Key="ImageIconButton" TargetType="Button" BasedOn="{StaticResource MinimalIconButton}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border 
+                    Background="{TemplateBinding Background}"
+                    CornerRadius="4"
+                    Padding="2">
+                                <ContentPresenter 
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Width" Value="40"/>
+                <Setter Property="Height" Value="40"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#F5F5F5"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <!-- Efekt cienia (używany w loginPage) -->
+            <DropShadowEffect x:Key="ShadowEffect" 
+                     BlurRadius="15" 
+                     ShadowDepth="5" 
+                     Opacity="0.1" 
+                     Color="#000000"/>
+
+            <!-- Podstawowy styl TextBox -->
+            <Style x:Key="MinimalTextBox" TargetType="TextBox">
+                <Setter Property="Background" Value="#FAFAFA"/>
+                <Setter Property="BorderBrush" Value="#E0E0E0"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Foreground" Value="#333333"/>
+                <Setter Property="CaretBrush" Value="#FFFE3C72"/>
+                <Setter Property="Padding" Value="10,5"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="Height" Value="40"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="TextBox">
+                            <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="4">
+                                <ScrollViewer x:Name="PART_ContentHost"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="BorderBrush" Value="#FFFE3C72"/>
+                    </Trigger>
+                    <Trigger Property="IsFocused" Value="True">
+                        <Setter Property="BorderBrush" Value="#FFFE3C72"/>
+                        <Setter Property="BorderThickness" Value="1.5"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <!-- Styl PasswordBox (dziedziczy po TextBox) -->
+            <Style x:Key="MinimalPasswordBox" TargetType="PasswordBox">
+                <Setter Property="Background" Value="#FAFAFA"/>
+                <Setter Property="BorderBrush" Value="#E0E0E0"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Foreground" Value="#333333"/>
+                <Setter Property="PasswordChar" Value="•"/>
+                <Setter Property="Padding" Value="10,5"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="Height" Value="40"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="PasswordBox">
+                            <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="4">
+                                <ScrollViewer x:Name="PART_ContentHost"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="BorderBrush" Value="#FFFE3C72"/>
+                    </Trigger>
+                    <Trigger Property="IsFocused" Value="True">
+                        <Setter Property="BorderBrush" Value="#FFFE3C72"/>
+                        <Setter Property="BorderThickness" Value="1.5"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <!-- Główny przycisk (różowy) -->
+            <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="#FFFE3C72"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="Height" Value="45"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}"
+                            CornerRadius="6">
+                                <ContentPresenter HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#FFE2336B"/>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" Value="#FFC92A5D"/>
+                        <Setter Property="RenderTransform">
+                            <Setter.Value>
+                                <ScaleTransform ScaleX="0.98" ScaleY="0.98"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <!-- Drugorzędny przycisk (konturowy) -->
+            <Style x:Key="SecondaryButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="#FFFE3C72"/>
+                <Setter Property="BorderBrush" Value="#FFFE3C72"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="Height" Value="40"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="6">
+                                <ContentPresenter HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#20FE3C72"/>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" Value="#40FE3C72"/>
+                        <Setter Property="RenderTransform">
+                            <Setter.Value>
+                                <ScaleTransform ScaleX="0.98" ScaleY="0.98"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <!-- Styl dla Snackbar'a -->
+            <Style x:Key="GlobalSnackbarStyle" TargetType="Border">
+                <Setter Property="Background" Value="#FF323232"/>
+                <Setter Property="CornerRadius" Value="4"/>
+                <Setter Property="Padding" Value="15"/>
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="VerticalAlignment" Value="Bottom"/>
+                <Setter Property="Margin" Value="0,0,20,20"/>
+                <Setter Property="Opacity" Value="0"/>
+            </Style>
+
+            <Style x:Key="GlobalSnackbarMessageStyle" TargetType="TextBlock">
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+                <Setter Property="FontSize" Value="14"/>
+            </Style>
+            
+            <Storyboard x:Key="PulseAnimation">
+                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                     From="0.5" To="1" Duration="0:0:1"
+                     AutoReverse="True" RepeatBehavior="3x"/>
+                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX"
+                     Storyboard.TargetName="NoMoreUsersPanel"
+                     From="0.95" To="1.05" Duration="0:0:0.5"
+                     AutoReverse="True" RepeatBehavior="3x"/>
+                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY"
+                     Storyboard.TargetName="NoMoreUsersPanel"
+                     From="0.95" To="1.05" Duration="0:0:0.5"
+                     AutoReverse="True" RepeatBehavior="3x"/>
+            </Storyboard>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

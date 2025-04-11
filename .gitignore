@@ -9,3 +9,7 @@ node_modules/
 bin/
 obj/
 .vs/
+/.vs
+/.vs
+/bin
+/obj
