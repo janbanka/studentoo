@@ -50,8 +50,10 @@ namespace studentoo
 
         private void LoadHomePage()
         {
-          
-            MainFrame.Navigate(new HomePage());
+            if (App.LoggedInUser == null)
+                MainFrame.Navigate(new LandingPage());
+            else
+                MainFrame.Navigate(new HomePage());
         }
         private DispatcherTimer snackbarTimer;
 

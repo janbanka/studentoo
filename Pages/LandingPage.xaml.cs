@@ -24,5 +24,17 @@ namespace studentoo.Pages
         {
             InitializeComponent();
         }
+
+
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.MainFrame.Navigate(new loginPage());
+        }
+
+        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.MainFrame.Navigate(new Rejestracja1()); 
+        }
     }
 }

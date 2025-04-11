@@ -3,53 +3,81 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:studentoo.Pages"
       mc:Ignorable="d" 
-      
       Title="LandingPage"
-  Background="#F9F5F0">
+      Background="#FFECECEC"
+      FontFamily="Segoe UI">
+
+    <Page.Resources>
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#FFFE3C72"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Margin" Value="0,0,10,0"/>
+        </Style>
+
+        <Style x:Key="SecondaryButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#FFFE3C72"/>
+            <Setter Property="BorderBrush" Value="#FFFE3C72"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+    </Page.Resources>
 
     <Grid>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-
-            <!-- Logo -->
-            <Image Source="/assets/LandingPage.png"
-                   Width="150" Height="150"
-                   HorizontalAlignment="Center"
-                   Margin="0,0,0,20" />
-
-            <!-- Nazwa -->
-            <TextBlock Text="studentoo"
-                       FontSize="36"
-                       FontWeight="Bold"
-                       Foreground="#202020"
-                       HorizontalAlignment="Center"
-                       Margin="0,0,0,10" />
-
-            <!-- Slogan -->
-            <TextBlock Text="Poznawaj studentów z pasją – tak jak Ty!"
-                       FontSize="16"
-                       Foreground="#606060"
-                       HorizontalAlignment="Center"
-                       Margin="0,0,0,30" />
-
-            <!-- Przycisk -->
-            <Button Content="Dołącz teraz"
-                    Width="200"
-                    Height="45"
-                    Background="#E53935"
-                    Foreground="White"
-                    FontSize="16"
-                    FontWeight="Bold"
-                    Cursor="Hand"
-                    BorderThickness="0"
+        <StackPanel VerticalAlignment="Center" 
                     HorizontalAlignment="Center"
-                    Margin="0,0,0,0">
-                <Button.Effect>
-                    <DropShadowEffect ShadowDepth="2" BlurRadius="8" Opacity="0.3"/>
-                </Button.Effect>
-            </Button>
+                    Width="350"
+                    TextBlock.TextAlignment="Center">
 
+            <!-- Nagłówek -->
+            <TextBlock Text="Witaj w Studento"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       Foreground="#FF333333"
+                       Margin="0,0,0,20"/>
+
+            <!-- Opis -->
+            <TextBlock Text="Poznawaj innych studentów, dziel się pasjami i buduj relacje!"
+                       FontSize="16"
+                       Foreground="#FF666666"
+                       Margin="0,0,0,20"
+                       TextWrapping="Wrap"/>
+
+            <!-- Obrazek -->
+            <Border Background="#FFFE3C72" 
+                    CornerRadius="10"
+                    Width="318"
+                    Height="200"
+                    Margin="0,0,0,30"
+                    HorizontalAlignment="Center">
+                <Image Source="/assets/LandingPage.png"
+                       Stretch="Uniform"
+                       Margin="-9,-2,-9,-2"/>
+            </Border>
+
+            <!-- Przyciski -->
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Margin="0,0,0,50">
+                <Button Content="Zaloguj się"
+                        Style="{StaticResource PrimaryButton}"
+                        Click="LoginButton_Click"/>
+
+                <Button Content="Zarejestruj się"
+                        Style="{StaticResource SecondaryButton}"
+                        Click="RegisterButton_Click"/>
+            </StackPanel>
+
+            <!-- Stopka -->
+            <TextBlock Text="© 2025 Studentoo. Wszelkie prawa zastrzeżone."
+                       FontSize="12"
+                       Foreground="#FF999999"
+                       Margin="0,40,0,0"/>
         </StackPanel>
     </Grid>
 </Page>
