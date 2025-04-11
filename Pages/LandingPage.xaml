@@ -57,7 +57,7 @@
                     TextBlock.TextAlignment="Center">
 
             <!-- Nagłówek -->
-            <TextBlock Text="Witaj w Studento"
+            <TextBlock Text="Witaj w Studentoo👋"
                        FontSize="28"
                        FontWeight="Bold"
                        Foreground="#FF333333"
