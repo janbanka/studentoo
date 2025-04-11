@@ -87,11 +87,11 @@
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Center"
                         Margin="0,0,0,50">
-                <Button Content="Zaloguj się"
+                <Button Content="Zaloguj się🚀"
                         Style="{StaticResource PrimaryButton}"
                         Click="LoginButton_Click"/>
 
-                <Button Content="Zarejestruj się"
+                <Button Content="Zarejestruj się📝"
                         Style="{StaticResource SecondaryButton}"
                         Click="RegisterButton_Click"/>
             </StackPanel>
