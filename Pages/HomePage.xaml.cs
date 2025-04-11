@@ -40,29 +40,39 @@ namespace studentoo
             {
                 using (var db = new UserDataContext())
                 {
+                    var totalUsers = await db.Users.CountAsync();
+                    Debug.WriteLine($"Łączna liczba użytkowników w bazie: {totalUsers}");
+
                     var ratedUserIds = await db.paired
                         .Where(p => p.user_id == loggedInUserId)
                         .Select(p => p.user_id2)
                         .ToListAsync();
 
-                    var usersWithPhotos = await db.Users
+                    Debug.WriteLine($"Liczba ocenionych użytkowników: {ratedUserIds.Count}");
+
+                    var query = db.Users
                         .Where(u => u.id != loggedInUserId)
-                        .Where(u => !ratedUserIds.Contains(u.id)) 
-                        .Where(u => db.photos.Any(p => p.user_id == u.id && p.photo_data != null))
+                        .Where(u => !ratedUserIds.Contains(u.id));
+
+                    var filteredCount = await query.CountAsync();
+                    Debug.WriteLine($"Użytkownicy po podstawowych filtrach: {filteredCount}");
+
+                    var users = await query
                         .OrderByDescending(u => u.created_at)
+                        .Take(100)
                         .ToListAsync();
 
-                    var userIds = usersWithPhotos.Select(u => u.id).ToList();
-                    var userPhotos = await db.photos
-                        .Where(p => userIds.Contains(p.user_id) && p.photo_data != null)
+                    var userIds = users.Select(u => u.id).ToList();
+                    var photosDict = await db.photos
+                        .Where(p => userIds.Contains(p.user_id))
                         .GroupBy(p => p.user_id)
                         .ToDictionaryAsync(g => g.Key, g => g.ToList());
 
-                    foreach (var user in usersWithPhotos)
+                    foreach (var user in users)
                     {
-                        if (userPhotos.TryGetValue(user.id, out var photos))
+                        if (photosDict.TryGetValue(user.id, out var photos))
                         {
-                            user.zdj = photos;
+                            user.zdj = photos.Where(p => p.photo_data != null && p.photo_data.Length > 0).ToList();
                         }
                         else
                         {
@@ -70,13 +80,17 @@ namespace studentoo
                         }
                     }
 
-                    potentialMatches = usersWithPhotos;
+                    potentialMatches = users.Where(u => u.zdj.Any()).ToList();
+                    Debug.WriteLine($"Znaleziono {potentialMatches.Count} użytkowników ze zdjęciami");
+
+                    currentIndex = 0;
                     UpdateUI();
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Błąd ładowania użytkowników: {ex}");
+                MessageBox.Show("Wystąpił błąd podczas ładowania użytkowników");
             }
         }
         public static bool IsImageDataValid(byte[] data)
