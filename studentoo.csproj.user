@@ -11,6 +11,9 @@
     <Compile Update="Pages\HomePage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Pages\LandingPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Pages\loginPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

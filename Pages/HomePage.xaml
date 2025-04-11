@@ -9,15 +9,11 @@
 
     <Page.Resources>
         <!-- Animacja pulsowania -->
-        <Storyboard x:Key="PulseAnimation" RepeatBehavior="2x">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)">
-                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1.05"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.0"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)">
-                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1.05"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.0"/>
-            </DoubleAnimationUsingKeyFrames>
+        <Storyboard x:Key="PulseAnimation" RepeatBehavior="2x" AutoReverse="True">
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                     To="1.1" Duration="0:0:0.2" />
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                     To="1.1" Duration="0:0:0.2" />
         </Storyboard>
 
         <!-- Styl przycisków akcji -->
@@ -41,15 +37,17 @@
     </Page.Resources>
 
     <Grid Background="#FFF5F5F5">
+      
         <!-- Panel informujący o braku użytkowników -->
         <Border x:Name="NoMoreUsersPanel"
-                Visibility="Collapsed"
-                Background="White"
-                CornerRadius="15"
-                Padding="30"
-                Width="450"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center">
+        Visibility="Collapsed"
+        Background="White"
+        CornerRadius="15"
+        Padding="30"
+        Width="450"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
                 <ScaleTransform ScaleX="1" ScaleY="1"/>
             </Border.RenderTransform>
@@ -179,5 +177,6 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+        <Canvas x:Name="HeartCanvas" IsHitTestVisible="False" Grid.RowSpan="3"/>
     </Grid>
 </Page>

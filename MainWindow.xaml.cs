@@ -11,7 +11,7 @@ namespace studentoo
     public partial class MainWindow : Window
     {
         private int currentUserId;
-
+        private DateTime LastAnimation;
         public MainWindow()
         {
             InitializeComponent();
@@ -26,7 +26,7 @@ namespace studentoo
            // this.Left = (screenWidth - this.Width) / 2;
             this.Top = (screenHeight - this.Height) / 2;
             App.MainF = this.MainFrame;
-            
+           
             UpdateLoginStateUI();
         }
 
@@ -37,13 +37,14 @@ namespace studentoo
                 btnLogin.Visibility = Visibility.Visible;
                 btnLogout.Visibility = Visibility.Collapsed;
                 brdrLike.Visibility = Visibility.Collapsed;
-                LoadHomePage();
+                MainFrame.Navigate(new LandingPage());
             }
             else
             {
                 btnLogin.Visibility = Visibility.Collapsed;
                 btnLogout.Visibility = Visibility.Visible;
                 brdrLike.Visibility = Visibility.Visible;
+                LoadHomePage();
             }
         }
 
@@ -126,7 +127,9 @@ namespace studentoo
                 return;
             }
             if (MainFrame.Content is HomePage homePage)
-            {   
+            {
+                if ((DateTime.Now - LastAnimation).TotalMilliseconds > 300)
+                    AnimateButton(btnLike);
                 homePage.LikeCurrentUser();
             }
         }
@@ -140,7 +143,9 @@ namespace studentoo
             }
             if (MainFrame.Content is HomePage homePage)
             {
-               homePage.DislikeCurrentUser();
+                if ((DateTime.Now - LastAnimation).TotalMilliseconds > 300)
+                    AnimateButton(btnDislike);
+                homePage.DislikeCurrentUser();
             }
         }
 
@@ -148,7 +153,14 @@ namespace studentoo
         {
             App.LoggedInUser = null;
             UpdateLoginStateUI();
-            MainFrame.Navigate(new HomePage());
+            MainFrame.Navigate(new LandingPage());
+        }
+        private void AnimateButton(Button button)
+        {
+            Storyboard storyboard = (Storyboard)FindResource("ButtonClickAnimation");
+            Storyboard clone = storyboard.Clone();
+            Storyboard.SetTarget(clone, button);
+            clone.Begin();
         }
 
         protected override void OnClosed(EventArgs e)

@@ -10,6 +10,14 @@
         Background="#FFF5F5F5">
 
     <Window.Resources>
+        <Storyboard x:Key="ButtonClickAnimation">
+            <DoubleAnimation
+        Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+        To="1.2" Duration="0:0:0.1" AutoReverse="True" />
+            <DoubleAnimation
+        Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+        To="1.2" Duration="0:0:0.1" AutoReverse="True" />
+        </Storyboard>
         <!-- Style przycisków -->
         <Style x:Key="NavButton" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
@@ -150,11 +158,22 @@
         <Border x:Name="brdrLike" Background="White" Height="70" VerticalAlignment="Top" Margin="0,52,0,0" Grid.RowSpan="2" Grid.Row="1">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Button x:Name="btnDislike" 
-                        Content="✖" FontSize="24" Foreground="#FF6B6B6B" Click="btnDislike_Click" Style="{StaticResource MinimalIconButton}"/>
+        Content="✖" FontSize="24" Foreground="#FF6B6B6B" Click="btnDislike_Click"
+        Style="{StaticResource MinimalIconButton}">
+                    <Button.RenderTransform>
+                        <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    </Button.RenderTransform>
+                </Button>
                 <Button x:Name="btnSuperLike"  
                         Content="⭐" FontSize="24" Foreground="#2196F3" Margin="30,0" Width="37" Style="{StaticResource MinimalIconButton}"/>
                 <Button x:Name="btnLike"
-                        Content="❤" FontSize="24" Foreground="#FFFE3C72" Click="btnLike_Click" Style="{StaticResource MinimalIconButton}"/>
+            Content="❤" FontSize="24" Foreground="#FFFE3C72" Click="btnLike_Click"
+        Style="{StaticResource MinimalIconButton}">
+                    <Button.RenderTransform>
+                        <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    </Button.RenderTransform>
+                </Button>
+
             </StackPanel>
         </Border>
 

@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System.IO;
 using System.Windows.Media.Animation;
 using System.Windows.Media;
+using System.Windows.Threading;
 namespace studentoo
 {
     public partial class HomePage : Page
@@ -16,7 +17,7 @@ namespace studentoo
         private List<User> potentialMatches;
         private int currentIndex = 0;
         private int loggedInUserId;
-
+        private DateTime lastAnimation;
         public HomePage()
         {
             InitializeComponent();
@@ -51,7 +52,6 @@ namespace studentoo
                         .OrderByDescending(u => u.created_at)
                         .ToListAsync();
 
-                    // Reszta metody pozostaje bez zmian...
                     var userIds = usersWithPhotos.Select(u => u.id).ToList();
                     var userPhotos = await db.photos
                         .Where(p => userIds.Contains(p.user_id) && p.photo_data != null)
@@ -99,7 +99,7 @@ namespace studentoo
         public void LikeCurrentUser()
         {
             if (currentIndex >= potentialMatches.Count) return;
-
+            CreateFloatingHearts();
             var likedUser = potentialMatches[currentIndex];
             SaveMatchAction(likedUser.id, true);
             CheckForMatch(likedUser.id);
@@ -114,9 +114,77 @@ namespace studentoo
             SaveMatchAction(dislikedUser.id, false);
             ShowNextUser();
         }
-        
+        private void CreateFloatingHearts(int count = 5)
+        {
+            Random rand = new Random();
 
+            for (int i = 0; i < count; i++)
+            {
+                var delay = TimeSpan.FromMilliseconds(i * 150); // lekkie opóźnienie między kolejnymi
 
+                DispatcherTimer timer = new DispatcherTimer();
+                timer.Interval = delay;
+                timer.Tick += (s, e) =>
+                {
+                    timer.Stop();
+                    SpawnSingleHeart(rand);
+                };
+                timer.Start();
+            }
+        }
+
+        private void SpawnSingleHeart(Random rand)
+        {
+            var heart = new TextBlock
+            {
+                Text = "❤",
+                FontSize = rand.Next(18, 28),
+                Foreground = new SolidColorBrush(Color.FromRgb(
+                    (byte)rand.Next(220, 255),
+                    (byte)rand.Next(50, 100),
+                    (byte)rand.Next(100, 150)
+                )),
+                Opacity = 0.8,
+                RenderTransform = new RotateTransform(rand.Next(-20, 20))
+            };
+
+            double startX = rand.Next(50, (int)(HeartCanvas.ActualWidth - 50));
+            Canvas.SetLeft(heart, startX);
+            Canvas.SetTop(heart, -30);
+
+            HeartCanvas.Children.Add(heart);
+
+            double endY = HeartCanvas.ActualHeight + 50;
+
+            DoubleAnimation fall = new DoubleAnimation
+            {
+                From = -30,
+                To = endY,
+                Duration = TimeSpan.FromSeconds(rand.NextDouble() * 1 + 1.5),
+                AccelerationRatio = 0.3
+            };
+
+            DoubleAnimation fade = new DoubleAnimation
+            {
+                From = 1,
+                To = 0,
+                Duration = TimeSpan.FromSeconds(1),
+                BeginTime = TimeSpan.FromSeconds(1)
+            };
+
+            Storyboard sb = new Storyboard();
+            sb.Children.Add(fall);
+            sb.Children.Add(fade);
+
+            Storyboard.SetTarget(fall, heart);
+            Storyboard.SetTargetProperty(fall, new PropertyPath("(Canvas.Top)"));
+
+            Storyboard.SetTarget(fade, heart);
+            Storyboard.SetTargetProperty(fade, new PropertyPath("Opacity"));
+
+            sb.Completed += (s, e) => HeartCanvas.Children.Remove(heart);
+            sb.Begin();
+        }
         private void CheckForMatch(int targetUserId)
         {
             using (var db = new UserDataContext())
@@ -160,9 +228,9 @@ namespace studentoo
             currentIndex = 0;
             await LoadPotentialMatches();
 
-            if (potentialMatches.Count == 0)
+            if (potentialMatches.Count == 0) 
             {
-                // Możesz dodać dodatkową animację
+                
                 Storyboard animation = (Storyboard)FindResource("PulseAnimation");
                 animation.Begin(NoMoreUsersPanel);
             }
@@ -174,10 +242,8 @@ namespace studentoo
 
             if (currentIndex >= potentialMatches.Count)
             {
-                // Make sure the panel is visible before animating
                 NoMoreUsersPanel.Visibility = Visibility.Visible;
 
-                // Start the animation
                 var animation = (Storyboard)this.Resources["PulseAnimation"];
                 if (animation != null)
                 {
