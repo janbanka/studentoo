@@ -6,7 +6,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="800" d:DesignWidth="500"
       Title="Profil użytkownika"
-      Background="#FFECECEC">
+      Background="#fff9f3">
 
     <Page.Resources>
         

@@ -10,7 +10,7 @@
 
     <Grid>
         <!-- Kontener formularza -->
-        <Border Background="White" 
+        <Border Background="#fff9f3" 
                 CornerRadius="12" 
                 Padding="40"
                 BorderBrush="#E0E0E0" 

@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:studentoo"
       mc:Ignorable="d" 
       Title="Rejestracja"
-      Background="#FFF5F5F5">
+      Background="#fff9f3">
     <Page.Resources>
         <!-- Styl dla RadioButton -->
         <Style x:Key="MinimalRadioButton" TargetType="RadioButton">

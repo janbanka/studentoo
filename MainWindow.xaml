@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Studentoo" Height="942" Width="500"
         WindowStartupLocation="CenterScreen"
-        Background="#FFF5F5F5">
+        Background="#fff9f3">
 
     <Window.Resources>
         <Storyboard x:Key="ButtonClickAnimation">
@@ -135,7 +135,7 @@
                         Margin="0,0,10,0"
                         Grid.Column="2"
                         Click="btnLogout_Click"
-                        Style="{StaticResource ImageIconButton}">
+                        Style="{StaticResource MinimalIconButton}">
                     <Image Source="Icons/logout.png" Width="24" Height="24" Stretch="Uniform"/>
                 </Button>
                 <Button x:Name="btnLogin"
@@ -145,7 +145,7 @@
          Margin="0,0,10,0"
          Grid.Column="2"
          Click="btnLogin_Click"
-         Style="{StaticResource ImageIconButton}">
+         Style="{StaticResource MinimalIconButton}">
                     <Image Source="Icons/logout.png" Width="24" Height="24" Stretch="Uniform"/>
                 </Button>
             </Grid>
@@ -167,8 +167,9 @@
                 <Button x:Name="btnSuperLike"  
                         Content="⭐" FontSize="24" Foreground="#2196F3" Margin="30,0" Width="37" Style="{StaticResource MinimalIconButton}"/>
                 <Button x:Name="btnLike"
-            Content="❤" FontSize="24" Foreground="#FFFE3C72" Click="btnLike_Click"
+             FontSize="24" Foreground="#FFFE3C72" Click="btnLike_Click"
         Style="{StaticResource MinimalIconButton}">
+                    <Image Source="Icons/like.png" Width="24" Height="24" Stretch="Uniform"/>
                     <Button.RenderTransform>
                         <ScaleTransform ScaleX="1" ScaleY="1"/>
                     </Button.RenderTransform>
