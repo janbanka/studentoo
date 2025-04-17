@@ -49,7 +49,7 @@ namespace studentoo.Pages
             .Include(p => p.User1).ThenInclude(u => u.zdj)
             .Include(p => p.User2).ThenInclude(u => u.zdj)
             .Where(p => (p.user_id == currentUserId || p.user_id2 == currentUserId) &&
-                       p.is_matched) // Tylko wzajemne dopasowania
+                       p.is_matched)
             .AsNoTracking()
             .ToList();
 
@@ -85,49 +85,14 @@ namespace studentoo.Pages
     }
 }
 
-        private string GetLastMessagePreview(paired pair)
-        {
-            var partnerId = pair.user_id == currentUserId ? pair.user_id2 : pair.user_id;
-            var lastMessage = _db.messages
-                .Where(m => (m.sender_id == currentUserId && m.receiver_id == partnerId) ||
-                           (m.sender_id == partnerId && m.receiver_id == currentUserId))
-                .OrderByDescending(m => m.sent_at)
-                .AsNoTracking()
-                .FirstOrDefault();
-
-            return lastMessage?.content ?? "Brak wiadomości";
-        }
-
-        private string GetLastMessageTime(paired pair)
-        {
-            var partnerId = pair.user_id == currentUserId ? pair.user_id2 : pair.user_id;
-            var lastMessage = _db.messages
-                .Where(m => (m.sender_id == currentUserId && m.receiver_id == partnerId) ||
-                           (m.sender_id == partnerId && m.receiver_id == currentUserId))
-                .OrderByDescending(m => m.sent_at)
-                .AsNoTracking()
-                .FirstOrDefault();
-
-            return lastMessage?.sent_at.ToString("HH:mm") ?? "--:--";
-        }
-
-        private int CountMatches()
-        {
-            using (var db = new UserDataContext())
-            {
-                return db.paired
-                    .Where(p => (p.user_id == currentUserId || p.user_id2 == currentUserId) &&
-                               p.is_like == true )
-                              
-                    .Count();
-            }
-        }
+        
+        
 
         private void ConversationSelected(object sender, SelectionChangedEventArgs e)
         {
             if (ConversationsListView.SelectedItem is ConversationViewModel selected)
             {
-                NavigationService.Navigate(new ChatPage(selected.Partner.id));
+                NavigationService.Navigate(new ChatPage(selected.Partner.id,currentUserId));
             }
         }
 

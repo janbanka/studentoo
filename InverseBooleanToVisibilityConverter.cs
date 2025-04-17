@@ -13,12 +13,13 @@ namespace studentoo
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (value is bool && (bool)value) ? Visibility.Collapsed : Visibility.Visible;
+            bool b = (bool)value;
+            return b ? Visibility.Collapsed : Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            return (Visibility)value != Visibility.Visible;
         }
     }
 

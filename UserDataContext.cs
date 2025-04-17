@@ -17,6 +17,7 @@ namespace studentoo
     public class UserDataContext : DbContext
     {
         public DbSet<paired> paired {  get; set; }
+        public DbSet<chats> chats { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<photos> photos { get; set; }
         public DbSet<messages> messages { get; set; }
