@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
@@ -14,22 +16,66 @@ namespace studentoo.Pages
         private readonly UserDataContext _db = new UserDataContext();
         private readonly int _currentUserId;
         private readonly int _partnerId;
-        private DispatcherTimer _updateTimer;
         private int _chatId;
+        private int? _pairedId;
+        private DispatcherTimer _updateTimer;
+
         public ChatPage(int partnerId, int currentUserId)
         {
             InitializeComponent();
             _partnerId = partnerId;
             _currentUserId = currentUserId;
+            _db = new UserDataContext();
 
-            InitializeChat();
+            if (!InitializeChat())
+            {
+                NavigationService?.GoBack();
+                return;
+            }
 
             Loaded += ChatPage_Loaded;
-
-            _updateTimer = new DispatcherTimer();
-            _updateTimer.Interval = TimeSpan.FromSeconds(5);
+            _updateTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(3) };
             _updateTimer.Tick += (s, e) => LoadMessages();
             _updateTimer.Start();
+        }
+
+        private bool InitializeChat()
+        {
+            try
+            {
+                // Znajdź sparowanie
+                _pairedId = _db.paired
+                    .Where(p => (p.user_id == _currentUserId && p.user_id2 == _partnerId && p.is_matched) ||
+                               (p.user_id == _partnerId && p.user_id2 == _currentUserId && p.is_matched))
+                    .Select(p => (int?)p.id)
+                    .FirstOrDefault();
+
+                if (_pairedId == null)
+                {
+                    MessageBox.Show("Najpierw musisz dopasować się z tym użytkownikiem!");
+                    return false;
+                }
+
+                // Sprawdź czy chat istnieje
+                var chatExists = _db.chats.Any(c => c.paired_id == _pairedId);
+                if (!chatExists)
+                {
+                    _db.chats.Add(new chats
+                    {
+                        paired_id = _pairedId.Value,
+                        created_at = DateTime.Now
+                    });
+                    _db.SaveChanges();
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Błąd inicjalizacji: {ex}");
+                MessageBox.Show("Błąd podczas inicjalizacji chatu");
+                return false;
+            }
         }
 
         private void ChatPage_Loaded(object sender, RoutedEventArgs e)
@@ -37,73 +83,62 @@ namespace studentoo.Pages
             LoadPartnerInfo();
             LoadMessages();
         }
-        private void InitializeChat()
-        {
-            try
-            {
-                var existingChat = _db.paired
-                    .FirstOrDefault(c =>
-                        (c.user_id == _currentUserId && c.user_id2 == _partnerId) ||
-                        (c.user_id == _partnerId && c.user_id2 == _currentUserId));
 
-                if (existingChat == null)
-                {
-                    // Jeśli nie ma chatu, utwórz nowy
-                    var newChat = new chats
-                    {
-                        paired_id=existingChat.id,
-                        created_at = DateTime.Now
-                    };
-                    _db.chats.Add(newChat);
-                    _db.SaveChanges();
-                    _chatId = newChat.id;
-                }
-                else
-                {
-                    _chatId = existingChat.id;
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Błąd inicjalizacji chatu: " + ex);
-                MessageBox.Show("Wystąpił błąd podczas inicjalizacji chatu");
-            }
-        }
         private void LoadPartnerInfo()
         {
             try
             {
-                var partner = _db.Users.Include(u => u.zdj).FirstOrDefault(u => u.id == _partnerId);
+                var partner = _db.Users
+                    .Include(u => u.zdj)
+                    .FirstOrDefault(u => u.id == _partnerId);
+
                 if (partner != null)
                 {
                     PartnerNameText.Text = $"{partner.name} {partner.surname}";
-                    if (partner.zdj.Count != null)
+
+                    var firstPhoto = partner.zdj.FirstOrDefault();
+                    if (firstPhoto != null)
                     {
-                        var image = new BitmapImage();
-                        using (var ms = new System.IO.MemoryStream(partner.zdj.Count))
-                        {
-                            image.BeginInit();
-                            image.StreamSource = ms;
-                            image.CacheOption = BitmapCacheOption.OnLoad;
-                            image.EndInit();
-                        }
-                        PartnerImage.Source = image;
+                        PartnerImage.Source = ConvertByteArrayToImage(firstPhoto.photo_data);
                     }
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Błąd ładowania partnera: " + ex);
+                Debug.WriteLine($"Błąd ładowania informacji o partnerze: {ex}");
             }
+        }
+
+        private BitmapImage ConvertByteArrayToImage(byte[] imageData)
+        {
+            if (imageData == null || imageData.Length == 0) return null;
+
+            var image = new BitmapImage();
+            using (var ms = new MemoryStream(imageData))
+            {
+                image.BeginInit();
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.StreamSource = ms;
+                image.EndInit();
+            }
+            return image;
         }
 
         private void LoadMessages()
         {
+            if (_pairedId == null) return;
+
             try
             {
                 var messages = _db.messages
-                    .Where(m => m.chat_id == _chatId) 
+                    .Where(m => m.chat.paired_id == _pairedId)
                     .OrderBy(m => m.sent_at)
+                    .Select(m => new
+                    {
+                        m.content,
+                        m.sent_at,
+                        IsCurrentUser = (m.sender_id == _currentUserId)
+                    })
                     .ToList();
 
                 MessagesList.ItemsSource = messages;
@@ -111,40 +146,34 @@ namespace studentoo.Pages
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Błąd ładowania wiadomości: " + ex);
-            }
-        }
-
-        private void SendButton_Click(object sender, RoutedEventArgs e)
-        {
-            SendMessage();
-        }
-
-        private void MessageTextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Enter)
-            {
-                SendMessage();
+                Debug.WriteLine($"Błąd ładowania wiadomości: {ex}");
             }
         }
 
         private void SendMessage()
         {
+            if (_pairedId == null) return;
+
             var text = MessageTextBox.Text?.Trim();
             if (string.IsNullOrWhiteSpace(text)) return;
 
             try
             {
-                // Sprawdź czy chat istnieje
-                if (_chatId == 0)
+                // Znajdź chat_id dla tego sparowania
+                var chatId = _db.chats
+                    .Where(c => c.paired_id == _pairedId)
+                    .Select(c => c.id)
+                    .FirstOrDefault();
+
+                if (chatId == 0)
                 {
-                    MessageBox.Show("Nie można wysłać wiadomości - czat nie został poprawnie zainicjowany");
+                    MessageBox.Show("Nie znaleziono odpowiedniego chatu");
                     return;
                 }
 
                 var message = new messages
                 {
-                    chat_id = _chatId, // Kluczowe - przypisanie do istniejącego czatu
+                    chat_id = chatId,
                     sender_id = _currentUserId,
                     content = text,
                     sent_at = DateTime.Now
@@ -158,14 +187,26 @@ namespace studentoo.Pages
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Błąd wysyłania wiadomości: {ex}");
-                MessageBox.Show("Nie udało się wysłać wiadomości. Spróbuj ponownie.");
+                Debug.WriteLine($"Błąd wysyłania: {ex}");
+                MessageBox.Show("Nie udało się wysłać wiadomości");
+            }
+        }
+
+        private void SendButton_Click(object sender, RoutedEventArgs e) => SendMessage();
+
+        private void MessageTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter && Keyboard.Modifiers != ModifierKeys.Shift)
+            {
+                SendMessage();
+                e.Handled = true;
             }
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.GoBack();
+            _updateTimer?.Stop();
+            NavigationService?.GoBack();
         }
     }
 }
