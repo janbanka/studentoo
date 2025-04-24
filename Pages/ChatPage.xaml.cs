@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
@@ -92,20 +93,23 @@ namespace studentoo.Pages
                     .Include(u => u.zdj)
                     .FirstOrDefault(u => u.id == _partnerId);
 
-                if (partner != null)
-                {
-                    PartnerNameText.Text = $"{partner.name} {partner.surname}";
+                if (partner == null) return;
 
-                    var firstPhoto = partner.zdj.FirstOrDefault();
-                    if (firstPhoto != null)
+                PartnerNameText.Text = $"{partner.name} {partner.surname}";
+
+                var photo = partner.zdj.FirstOrDefault()?.photo_data;
+                if (photo != null && photo.Length > 0)
+                {
+                    var bitmap = ConvertByteArrayToImage(photo);
+                    PartnerEllipse.Fill = new ImageBrush(bitmap)
                     {
-                        PartnerImage.Source = ConvertByteArrayToImage(firstPhoto.photo_data);
-                    }
+                        Stretch = Stretch.UniformToFill
+                    };
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Błąd ładowania informacji o partnerze: {ex}");
+                Debug.WriteLine($"Błąd ładowania partnera: {ex}");
             }
         }
 
@@ -130,18 +134,76 @@ namespace studentoo.Pages
 
             try
             {
+                // 1) Pobierz chatId dla naszego paired_id
+                var chatId = _db.chats
+                    .Where(c => c.paired_id == _pairedId.Value)
+                    .Select(c => c.id)
+                    .FirstOrDefault();
+
+                if (chatId == 0)
+                    return; // brak chatu, wychodzimy
+
+                // 2) Pobierz wiadomości filtrowane po chat_id
                 var messages = _db.messages
-                    .Where(m => m.chat.paired_id == _pairedId)
+                    .Where(m => m.chat_id == chatId)
                     .OrderBy(m => m.sent_at)
                     .Select(m => new
                     {
-                        m.content,
-                        m.sent_at,
-                        IsCurrentUser = (m.sender_id == _currentUserId)
+                        Content = m.content,
+                        SentAt = m.sent_at,
+                        IsFromCurrentUser = (m.sender_id == _currentUserId)
                     })
                     .ToList();
 
-                MessagesList.ItemsSource = messages;
+                // 3) Wyświetl je „ręcznie” w MessagesPanel (StackPanel)
+                MessagesPanel.Children.Clear();
+                foreach (var msg in messages)
+                {
+                    var panel = new StackPanel
+                    {
+                        Orientation = Orientation.Vertical,
+                        HorizontalAlignment = msg.IsFromCurrentUser
+                                              ? HorizontalAlignment.Right
+                                              : HorizontalAlignment.Left,
+                        Margin = new Thickness(0, 5, 0, 5)
+                    };
+
+                    var border = new Border
+                    {
+                        Background = msg.IsFromCurrentUser
+                                     ? (Brush)new SolidColorBrush(Color.FromRgb(254, 60, 114))
+                                     : Brushes.White,
+                        CornerRadius = msg.IsFromCurrentUser
+                                       ? new CornerRadius(10, 10, 0, 10)
+                                       : new CornerRadius(10, 10, 10, 0),
+                        Padding = new Thickness(10),
+                        MaxWidth = 300
+                    };
+                    border.Child = new TextBlock
+                    {
+                        Text = msg.Content,
+                        TextWrapping = TextWrapping.Wrap,
+                        Foreground = msg.IsFromCurrentUser
+                                     ? Brushes.White
+                                     : Brushes.Black
+                    };
+
+                    var timeText = new TextBlock
+                    {
+                        Text = msg.SentAt.ToString("HH:mm"),
+                        FontSize = 10,
+                        Foreground = Brushes.Gray,
+                        Margin = new Thickness(5, 2, 5, 0),
+                        HorizontalAlignment = msg.IsFromCurrentUser
+                                              ? HorizontalAlignment.Right
+                                              : HorizontalAlignment.Left
+                    };
+
+                    panel.Children.Add(border);
+                    panel.Children.Add(timeText);
+                    MessagesPanel.Children.Add(panel);
+                }
+
                 MessagesScrollViewer.ScrollToEnd();
             }
             catch (Exception ex)
@@ -149,6 +211,8 @@ namespace studentoo.Pages
                 Debug.WriteLine($"Błąd ładowania wiadomości: {ex}");
             }
         }
+
+
 
         private void SendMessage()
         {

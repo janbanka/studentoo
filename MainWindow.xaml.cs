@@ -1,4 +1,5 @@
 ﻿using studentoo.Pages;
+using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,22 +13,40 @@ namespace studentoo
     {
         private int currentUserId;
         private DateTime LastAnimation;
+        private DispatcherTimer snackbarTimer;
+
         public MainWindow()
         {
             InitializeComponent();
-
 
             var screenWidth = SystemParameters.PrimaryScreenWidth;
             var screenHeight = SystemParameters.PrimaryScreenHeight;
 
             //this.Width = screenWidth * 0.8;
             this.Height = screenHeight * 0.9;
-
-           // this.Left = (screenWidth - this.Width) / 2;
+            //this.Left = (screenWidth - this.Width) / 2;
             this.Top = (screenHeight - this.Height) / 2;
+
             App.MainF = this.MainFrame;
-           
+
+            // Za każdym razem, gdy nawigujemy wewnątrz MainFrame, sprawdź, czy mamy pokazać dolny pasek:
+            MainFrame.Navigated += MainFrame_Navigated;
+
             UpdateLoginStateUI();
+        }
+
+        private void MainFrame_Navigated(object sender, NavigationEventArgs e)
+        {
+            // Jeżeli wróciliśmy na stronę HomePage -> pokaż like/dislike
+            if (e.Content is HomePage)
+            {
+                brdrLike.Visibility = Visibility.Visible;
+            }
+            // LandingPage / loginPage / UserPage / ChatHubPage -> chowaj
+            else
+            {
+                brdrLike.Visibility = Visibility.Collapsed;
+            }
         }
 
         public void UpdateLoginStateUI()
@@ -43,19 +62,21 @@ namespace studentoo
             {
                 btnLogin.Visibility = Visibility.Collapsed;
                 btnLogout.Visibility = Visibility.Visible;
-                brdrLike.Visibility = Visibility.Visible;
+                // Jeżeli jesteśmy już w HomePage, pokaz; inaczej bazujemy na MainFrame_Navigated
                 LoadHomePage();
             }
         }
 
         private void LoadHomePage()
         {
+            // zawsze chowamy lub pokazujemy odpowiednio: tu wymuszamy pokaz
+            brdrLike.Visibility = Visibility.Visible;
+
             if (App.LoggedInUser == null)
                 MainFrame.Navigate(new LandingPage());
             else
                 MainFrame.Navigate(new HomePage());
         }
-        private DispatcherTimer snackbarTimer;
 
         public void ShowSnackbar(string message, int duration = 3000)
         {
@@ -76,6 +97,7 @@ namespace studentoo
             };
             snackbarTimer.Start();
         }
+
         private void btnProfile_Click(object sender, RoutedEventArgs e)
         {
             if (App.LoggedInUser == null)
@@ -83,7 +105,11 @@ namespace studentoo
                 ShowSnackbar("Musisz się zalogować.");
                 return;
             }
-            if(MainFrame.Content is not UserPage)
+
+            // chowamy dolny pasek przed nawigacją
+            brdrLike.Visibility = Visibility.Collapsed;
+
+            if (MainFrame.Content is not UserPage)
                 MainFrame.Navigate(new UserPage(App.LoggedInUser.id));
         }
 
@@ -91,21 +117,21 @@ namespace studentoo
         {
             LoadHomePage();
         }
-        
-
 
         private void btnMessages_Click(object sender, RoutedEventArgs e)
         {
             if (App.LoggedInUser == null)
             {
-               ShowSnackbar("Musisz się zalogować.");
+                ShowSnackbar("Musisz się zalogować.");
                 return;
             }
-            if (App.LoggedInUser != null)
-            {
-                MainFrame.Navigate(new ChatHubPage(App.LoggedInUser.id));
-            }
+
+            // chowamy dolny pasek przed nawigacją
+            brdrLike.Visibility = Visibility.Collapsed;
+
+            MainFrame.Navigate(new ChatHubPage(App.LoggedInUser.id));
         }
+
         public void UpdateMessagesBadge(int count)
         {
             Dispatcher.Invoke(() =>
@@ -121,6 +147,7 @@ namespace studentoo
                 }
             });
         }
+
         private void btnLike_Click(object sender, RoutedEventArgs e)
         {
             if (App.LoggedInUser == null)
@@ -155,8 +182,13 @@ namespace studentoo
         {
             App.LoggedInUser = null;
             UpdateLoginStateUI();
-            MainFrame.Navigate(new LandingPage());
         }
+
+        private void btnLogin_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new loginPage());
+        }
+
         private void AnimateButton(Button button)
         {
             Storyboard storyboard = (Storyboard)FindResource("ButtonClickAnimation");
@@ -167,14 +199,7 @@ namespace studentoo
 
         protected override void OnClosed(EventArgs e)
         {
-
-           
             base.OnClosed(e);
-        }
-
-        private void btnLogin_Click(object sender, RoutedEventArgs e)
-        {
-            MainFrame.Navigate(new loginPage());
         }
     }
 }
