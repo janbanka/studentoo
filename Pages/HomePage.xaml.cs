@@ -10,6 +10,8 @@ using System.IO;
 using System.Windows.Media.Animation;
 using System.Windows.Media;
 using System.Windows.Threading;
+using System.Threading.Tasks;
+
 namespace studentoo
 {
     public partial class HomePage : Page
@@ -18,6 +20,7 @@ namespace studentoo
         private int currentIndex = 0;
         private int loggedInUserId;
         private DateTime lastAnimation;
+
         public HomePage()
         {
             InitializeComponent();
@@ -30,7 +33,6 @@ namespace studentoo
             {
                 loggedInUserId = App.LoggedInUser.id;
                 LoadPotentialMatches();
-                
             }
         }
 
@@ -93,48 +95,101 @@ namespace studentoo
                 MessageBox.Show("Wystąpił błąd podczas ładowania użytkowników");
             }
         }
+
         public static bool IsImageDataValid(byte[] data)
         {
             if (data == null || data.Length < 8)
                 return false;
 
             var headers = new Dictionary<byte[], string>
-    {
-        { new byte[] { 0xFF, 0xD8, 0xFF }, "jpg" }, // JPEG
-        { new byte[] { 0x89, 0x50, 0x4E, 0x47 }, "png" }, // PNG
-        { new byte[] { 0x47, 0x49, 0x46, 0x38 }, "gif" } // GIF
-    };
+            {
+                { new byte[] { 0xFF, 0xD8, 0xFF }, "jpg" }, // JPEG
+                { new byte[] { 0x89, 0x50, 0x4E, 0x47 }, "png" }, // PNG
+                { new byte[] { 0x47, 0x49, 0x46, 0x38 }, "gif" } // GIF
+            };
 
             return headers.Any(header =>
                 header.Key.SequenceEqual(data.Take(header.Key.Length)));
         }
 
-
         public void LikeCurrentUser()
         {
             if (currentIndex >= potentialMatches.Count) return;
-            CreateFloatingHearts();
-            var likedUser = potentialMatches[currentIndex];
-            SaveMatchAction(likedUser.id, true);
-            CheckForMatch(likedUser.id);
-            ShowNextUser();
+
+            var card = GetCurrentCard();
+            if (card != null)
+            {
+                AnimateCardOut(card, true);
+                CreateFloatingHearts();
+
+                var likedUser = potentialMatches[currentIndex];
+                SaveMatchAction(likedUser.id, true);
+                CheckForMatch(likedUser.id);
+            }
         }
 
         public void DislikeCurrentUser()
         {
             if (currentIndex >= potentialMatches.Count) return;
 
-            var dislikedUser = potentialMatches[currentIndex];
-            SaveMatchAction(dislikedUser.id, false);
-            ShowNextUser();
+            var card = GetCurrentCard();
+            if (card != null)
+            {
+                AnimateCardOut(card, false);
+
+                var dislikedUser = potentialMatches[currentIndex];
+                SaveMatchAction(dislikedUser.id, false);
+            }
         }
+
+        private Border GetCurrentCard()
+        {
+            if (UsersCardsContainer.ItemContainerGenerator.ContainerFromIndex(0) is ContentPresenter container)
+            {
+                return FindVisualChild<Border>(container);
+            }
+            return null;
+        }
+
+        private static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+                if (child != null && child is T)
+                    return (T)child;
+                else
+                {
+                    T childOfChild = FindVisualChild<T>(child);
+                    if (childOfChild != null)
+                        return childOfChild;
+                }
+            }
+            return null;
+        }
+
+        private void AnimateCardOut(FrameworkElement card, bool liked)
+        {
+            var animation = liked ?
+                (Storyboard)FindResource("SwipeRightAnimation") :
+                (Storyboard)FindResource("SwipeLeftAnimation");
+
+            Storyboard.SetTarget(animation, card);
+            animation.Completed += (s, e) => {
+                ShowNextUser();
+                card.Opacity = 1;
+                card.RenderTransform = new TranslateTransform();
+            };
+            animation.Begin();
+        }
+
         private void CreateFloatingHearts(int count = 5)
         {
             Random rand = new Random();
 
             for (int i = 0; i < count; i++)
             {
-                var delay = TimeSpan.FromMilliseconds(i * 150); // lekkie opóźnienie między kolejnymi
+                var delay = TimeSpan.FromMilliseconds(i * 150);
 
                 DispatcherTimer timer = new DispatcherTimer();
                 timer.Interval = delay;
@@ -199,6 +254,7 @@ namespace studentoo
             sb.Completed += (s, e) => HeartCanvas.Children.Remove(heart);
             sb.Begin();
         }
+
         private void CheckForMatch(int targetUserId)
         {
             using (var db = new UserDataContext())
@@ -237,18 +293,19 @@ namespace studentoo
                 return db.Users.FirstOrDefault(u => u.id == userId)?.name ?? "użytkownikiem";
             }
         }
+
         private async void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
             currentIndex = 0;
             await LoadPotentialMatches();
 
-            if (potentialMatches.Count == 0) 
+            if (potentialMatches.Count == 0)
             {
-                
                 Storyboard animation = (Storyboard)FindResource("PulseAnimation");
                 animation.Begin(NoMoreUsersPanel);
             }
         }
+
         private void ShowNextUser()
         {
             currentIndex++;
@@ -280,7 +337,6 @@ namespace studentoo
             UsersCardsContainer.Visibility = Visibility.Visible;
             NoMoreUsersPanel.Visibility = Visibility.Collapsed;
         }
-
 
         private void SaveMatchAction(int targetUserId, bool isLike)
         {

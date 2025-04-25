@@ -34,6 +34,20 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Storyboard x:Key="SwipeRightAnimation">
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
+                         To="500" Duration="0:0:0.3" />
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.Opacity)"
+                         From="1" To="0" Duration="0:0:0.3" />
+        </Storyboard>
+
+        <!-- Animacja przesuwania w lewo (odrzucenie) -->
+        <Storyboard x:Key="SwipeLeftAnimation">
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
+                         To="-500" Duration="0:0:0.3" />
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.Opacity)"
+                         From="1" To="0" Duration="0:0:0.3" />
+        </Storyboard>
     </Page.Resources>
 
     <Grid Background="#FFF5F5F5">
@@ -104,6 +118,9 @@
                         <Border Background="White" CornerRadius="15"
                                 Width="320" Height="480"
                                 BorderBrush="#E0E0E0" BorderThickness="1">
+                            <Border.RenderTransform>
+                                <TranslateTransform X="0" Y="0"/>
+                            </Border.RenderTransform>
                             <Grid>
                                 <!-- Zdjęcie -->
                                 <Grid>

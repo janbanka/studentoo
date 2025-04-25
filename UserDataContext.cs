@@ -35,7 +35,10 @@ namespace studentoo
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-           
+            modelBuilder.Entity<chats>()
+                .HasOne(c => c.Pair)         
+                .WithMany(p => p.Chats)       
+                .HasForeignKey(c => c.paired_id); 
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("Users"); 

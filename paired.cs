@@ -24,7 +24,8 @@ namespace studentoo
         [ForeignKey("user_id2")]
         public virtual User User2 { get; set; }
 
-       
+        public virtual ICollection<chats> Chats { get; set; } = new List<chats>();
+
 
 
     }
