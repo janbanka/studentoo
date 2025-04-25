@@ -7,26 +7,26 @@
       Background="#FFF5F5F5">
 
     <Grid Background="#FFF5F5F5">
-        <!-- Komunikat gdy brak matchy -->
-        <TextBlock x:Name="NoMatchesText" 
-                   Text="Nie masz jeszcze żadnych matchy. Zacznij rozmawiać z innymi użytkownikami!"
-                   HorizontalAlignment="Center" 
-                   VerticalAlignment="Center"
-                   TextAlignment="Center"
-                   FontSize="16"
-                   Foreground="#666666"
-                   Visibility="Collapsed"/>
-
-        <!-- ListView z poprawionymi właściwościami -->
+        <!-- ListView z konwersacjami -->
         <ListView x:Name="ConversationsListView"
                   Margin="10"
                   SelectionChanged="ConversationSelected"
-                  Background="White"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
                   BorderThickness="0">
 
-            <!-- Styl dla itemów -->
+            <ListView.Style>
+                <Style TargetType="ListView">
+                    <Setter Property="Background" Value="White" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Setter Property="Background" Value="Transparent" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.Style>
+
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="Padding" Value="0"/>
@@ -56,21 +56,21 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <!-- Zdjęcie z fallbackiem -->
+                            <!-- Zdjęcie profilowe -->
                             <Border Grid.Column="0" 
                                     Width="60" 
                                     Height="60"
                                     CornerRadius="30"
                                     Background="White">
                                 <Image Source="{Binding Partner.PhotoImage, FallbackValue={StaticResource DefaultImage}}" 
-                                    Stretch="UniformToFill">
+                                       Stretch="UniformToFill">
                                     <Image.Clip>
                                         <EllipseGeometry RadiusX="30" RadiusY="30" Center="30,30"/>
                                     </Image.Clip>
                                 </Image>
                             </Border>
 
-                            <!-- Informacje -->
+                            <!-- Informacje o użytkowniku -->
                             <StackPanel Grid.Column="1" 
                                         Margin="10,0"
                                         VerticalAlignment="Center">
@@ -84,7 +84,7 @@
                                            MaxWidth="200"/>
                             </StackPanel>
 
-                            <!-- Czas -->
+                            <!-- Czas ostatniej wiadomości -->
                             <TextBlock Text="{Binding LastMessageTime, FallbackValue='--:--'}" 
                                        Grid.Column="2" 
                                        Foreground="#999999"
@@ -95,5 +95,17 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
+        <!-- Komunikat gdy brak matchy - wyśrodkowany na całej stronie -->
+        <TextBlock x:Name="NoMatchesText" 
+                   Text="Nie masz jeszcze żadnych matchy"
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center"
+                   TextAlignment="Center"
+                   FontSize="16"
+                   Foreground="#666666"
+                   Visibility="Collapsed"
+                   Padding="20"
+                   MaxWidth="300"/>
     </Grid>
 </Page>

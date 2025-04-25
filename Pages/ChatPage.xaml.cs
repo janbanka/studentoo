@@ -134,16 +134,13 @@ namespace studentoo.Pages
 
             try
             {
-                // 1) Pobierz chatId dla naszego paired_id
                 var chatId = _db.chats
                     .Where(c => c.paired_id == _pairedId.Value)
                     .Select(c => c.id)
                     .FirstOrDefault();
 
-                if (chatId == 0)
-                    return; // brak chatu, wychodzimy
+                if (chatId == 0) return;
 
-                // 2) Pobierz wiadomości filtrowane po chat_id
                 var messages = _db.messages
                     .Where(m => m.chat_id == chatId)
                     .OrderBy(m => m.sent_at)
@@ -155,10 +152,14 @@ namespace studentoo.Pages
                     })
                     .ToList();
 
-                // 3) Wyświetl je „ręcznie” w MessagesPanel (StackPanel)
                 MessagesPanel.Children.Clear();
+
+               
+
                 foreach (var msg in messages)
                 {
+                  
+
                     var panel = new StackPanel
                     {
                         Orientation = Orientation.Vertical,
@@ -171,26 +172,25 @@ namespace studentoo.Pages
                     var border = new Border
                     {
                         Background = msg.IsFromCurrentUser
-                                     ? (Brush)new SolidColorBrush(Color.FromRgb(254, 60, 114))
-                                     : Brushes.White,
+                                      ? (Brush)new SolidColorBrush(Color.FromRgb(254, 60, 114))
+                                      : Brushes.White,
                         CornerRadius = msg.IsFromCurrentUser
-                                       ? new CornerRadius(10, 10, 0, 10)
-                                       : new CornerRadius(10, 10, 10, 0),
+                                        ? new CornerRadius(10, 10, 0, 10)
+                                        : new CornerRadius(10, 10, 10, 0),
                         Padding = new Thickness(10),
                         MaxWidth = 300
                     };
+
                     border.Child = new TextBlock
                     {
                         Text = msg.Content,
                         TextWrapping = TextWrapping.Wrap,
-                        Foreground = msg.IsFromCurrentUser
-                                     ? Brushes.White
-                                     : Brushes.Black
+                        Foreground = msg.IsFromCurrentUser ? Brushes.White : Brushes.Black
                     };
 
                     var timeText = new TextBlock
                     {
-                        Text = msg.SentAt.ToString("HH:mm"),
+                        Text = FormatMessageTime(msg.SentAt),
                         FontSize = 10,
                         Foreground = Brushes.Gray,
                         Margin = new Thickness(5, 2, 5, 0),
@@ -211,6 +211,35 @@ namespace studentoo.Pages
                 Debug.WriteLine($"Błąd ładowania wiadomości: {ex}");
             }
         }
+
+        private string FormatMessageTime(DateTime messageTime)
+        {
+            var now = DateTime.Now;
+            var today = now.Date;
+            var messageDate = messageTime.Date;
+
+            var timePart = messageTime.ToString("HH:mm");
+
+            if (messageDate == today)
+            {
+                return $"dzisiaj {timePart}";
+            }
+            else if (messageDate == today.AddDays(-1))
+            {
+                return $"wczoraj {timePart}";
+            }
+            else if (messageDate > today.AddDays(-7))
+            {
+                var daysAgo = (today - messageDate).Days;
+                return $"{daysAgo} dni temu {timePart}";
+            }
+            else
+            {
+                return messageTime.ToString("dd.MM.yyyy HH:mm");
+            }
+        }
+
+       
 
 
 
